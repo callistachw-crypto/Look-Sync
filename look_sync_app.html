@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Look Sync - Fashion Style Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #c49c56;
+            --secondary: #c69c52;
+            --accent: #fbf5e6;
+            --dark: #4e493b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--accent) 0%, #fff 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+        
+        .navbar {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background: #b58941;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(196, 156, 86, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+        }
+        
+        .btn-secondary:hover {
+            background: #b08a42;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        .card-header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 20px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 15px;
+            border: 2px solid var(--accent);
+            padding: 12px 20px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(196, 156, 86, 0.25);
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, var(--accent) 0%, #fff 100%);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .body-type-badge {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary);
+            transition: all 0.3s;
+        }
+        
+        .recommendation-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .premium-badge {
+            background: linear-gradient(90deg, #c49c56 0%, #d4af6a 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .account-type-badge {
+            background: linear-gradient(90deg, #c49c56 0%, #d4af6a 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .free-badge {
+            background: #6c757d;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .locked-content {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .unlock-overlay {
+            position: relative;
+            text-align: center;
+            margin-top: -150px;
+            z-index: 10;
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .hero-section h1 {
+            color: var(--primary);
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="bi bi-stars"></i> Look Sync</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" id="userInfo" style="display: none;">
+                        <span class="nav-link text-white">
+                            <i class="bi bi-person-circle"></i> <span id="userName"></span>
+                            <span id="accountTypeBadge"></span>
+                        </span>
+                    </li>
+                    <li class="nav-item" id="upgradeBtn" style="display: none;">
+                        <a class="nav-link text-white" href="#" onclick="showUpgradeModal()">
+                            <i class="bi bi-star-fill"></i> Upgrade
+                        </a>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display: none;">
+                        <a class="nav-link text-white" href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Login Page -->
+        <div id="loginPage" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h3><i class="bi bi-lock"></i> Login</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="loginForm" onsubmit="handleLogin(event)">
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="loginEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="loginPassword" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Ingat Saya</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                                <div class="text-center">
+                                    <p>Belum punya akun? <a href="#" onclick="showRegister()" style="color: var(--primary);">Daftar disini</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="registerPage" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h3><i class="bi bi-person-plus"></i> Register</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="registerForm" onsubmit="handleRegister(event)">
+                                <div class="mb-3">
+                                    <label class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="regName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="regEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password (minimal 6 karakter)</label>
+                                    <input type="password" class="form-control" id="regPassword" minlength="6" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Konfirmasi Password</label>
+                                    <input type="password" class="form-control" id="regPasswordConfirm" minlength="6" required>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Pilih Tipe Akun:</label>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="card" style="cursor: pointer; border: 3px solid transparent;" onclick="selectAccountType('free', this)">
+                                                <div class="card-body text-center">
+                                                    <input type="radio" name="accountType" value="free" id="typeFree" checked style="display: none;">
+                                                    <h5><i class="bi bi-person"></i> Free</h5>
+                                                    <p class="mb-2"><strong>Gratis Selamanya</strong></p>
+                                                    <ul class="text-start" style="font-size: 0.9rem;">
+                                                        <li>Analisis bentuk tubuh dasar</li>
+                                                        <li>2-3 rekomendasi outfit</li>
+                                                        <li>Tips dasar berpakaian</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card" style="cursor: pointer; border: 3px solid transparent;" onclick="selectAccountType('premium', this)">
+                                                <div class="card-body text-center">
+                                                    <input type="radio" name="accountType" value="premium" id="typePremium" style="display: none;">
+                                                    <span class="premium-badge mb-2"><i class="bi bi-star-fill"></i> PREMIUM</span>
+                                                    <h5><i class="bi bi-gem"></i> Premium</h5>
+                                                    <p class="mb-2"><strong>Fitur Lengkap!</strong></p>
+                                                    <ul class="text-start" style="font-size: 0.9rem;">
+                                                        <li>Analisis mendalam & detail</li>
+                                                        <li>5+ rekomendasi lengkap</li>
+                                                        <li>Personal color analysis</li>
+                                                        <li>Tips untuk berbagai acara</li>
+                                                        <li>Rekomendasi aksesori</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary w-100 mb-3">Daftar</button>
+                                <div class="text-center">
+                                    <p>Sudah punya akun? <a href="#" onclick="showLogin()" style="color: var(--primary);">Login disini</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="mainApp" style="display: none;">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1><i class="bi bi-stars"></i> Look Sync</h1>
+                <p>Temukan Gaya Terbaik yang Sesuai dengan Bentuk Tubuhmu</p>
+            </div>
+
+            <!-- Input Form -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Input Data Fisik</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="bodyDataForm" onsubmit="analyzeBody(event)">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Tinggi Badan (cm)</label>
+                                        <input type="number" class="form-control" id="height" required min="100" max="250">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Berat Badan (kg)</label>
+                                        <input type="number" class="form-control" id="weight" required min="30" max="200">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Lingkar Dada (cm)</label>
+                                        <input type="number" class="form-control" id="bust" required min="50" max="150">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Lingkar Pinggang (cm)</label>
+                                        <input type="number" class="form-control" id="waist" required min="40" max="150">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Lingkar Pinggul (cm)</label>
+                                        <input type="number" class="form-control" id="hips" required min="50" max="180">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Lebar Bahu (cm)</label>
+                                        <input type="number" class="form-control" id="shoulder" required min="30" max="60">
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="bi bi-search"></i> Analisis Sekarang
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <!-- Body Type Result -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0"><i class="bi bi-diagram-3"></i> Hasil Analisis Bentuk Tubuh</h4>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="result-card text-center">
+                                    <h5>Bentuk Tubuh Kamu:</h5>
+                                    <div class="body-type-badge" id="bodyType"></div>
+                                    <p class="mt-3" id="bodyTypeDesc"></p>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div class="result-card">
+                                            <strong>BMI</strong>
+                                            <h4 id="bmiValue" class="mb-0"></h4>
+                                            <small id="bmiCategory"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div class="result-card">
+                                            <strong>Rasio Pinggang-Pinggul</strong>
+                                            <h4 id="whrValue" class="mb-0"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div class="result-card">
+                                            <strong>Tinggi</strong>
+                                            <h4 id="heightValue" class="mb-0"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div class="result-card">
+                                            <strong>Berat</strong>
+                                            <h4 id="weightValue" class="mb-0"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Premium Analysis -->
+                                <div id="premiumAnalysisSection" style="display: none;">
+                                    <hr class="my-4">
+                                    <h5 class="mb-3"><i class="bi bi-star-fill" style="color: var(--primary);"></i> Analisis Mendalam (Premium)</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="result-card">
+                                                <h6><i class="bi bi-rulers"></i> Proporsi Tubuh</h6>
+                                                <p id="bodyProportionAnalysis"></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="result-card">
+                                                <h6><i class="bi bi-heart-pulse"></i> Kesehatan & Fitness</h6>
+                                                <p id="healthAnalysis"></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="result-card">
+                                                <h6><i class="bi bi-palette"></i> Rekomendasi Warna</h6>
+                                                <p id="colorRecommendation"></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="result-card">
+                                                <h6><i class="bi bi-gem"></i> Tips Khusus</h6>
+                                                <p id="specialTips"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Free/Premium Recommendations -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0"><i class="bi bi-bag-heart"></i> Rekomendasi Gaya Berpakaian</h4>
+                            </div>
+                            <div class="card-body p-4">
+                                <div id="allRecommendations"></div>
+                            </div>
+                        </div>
+
+                        <!-- Upgrade CTA for Free Users -->
+                        <div class="card" id="upgradeSection" style="display: none;">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0"><i class="bi bi-star-fill"></i> Dapatkan Lebih Banyak dengan Premium!</h4>
+                                <span class="premium-badge"><i class="bi bi-gem"></i> PREMIUM</span>
+                            </div>
+                            <div class="card-body p-4 text-center">
+                                <h5 class="mb-3">Upgrade ke Premium dan dapatkan:</h5>
+                                <div class="row text-start mb-4">
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> Analisis bentuk tubuh yang lebih mendalam</li>
+                                            <li><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> 5+ rekomendasi outfit lengkap</li>
+                                            <li><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> Personal color analysis</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> Tips untuk berbagai acara</li>
+                                            <li><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> Rekomendasi aksesori yang sempurna</li>
+                                            <li><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> Update konten bulanan</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-lg" onclick="showUpgradeModal()">
+                                    <i class="bi bi-gem"></i> Upgrade ke Premium Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedAccountType = 'free';
+        
+        function selectAccountType(type, element) {
+            selectedAccountType = type;
+            
+            // Remove border from all cards
+            const cards = document.querySelectorAll('#registerPage .card');
+            cards.forEach(card => {
+                if (card.querySelector('input[name="accountType"]')) {
+                    card.style.border = '3px solid transparent';
+                }
+            });
+            
+            // Add border to selected card
+            element.style.border = '3px solid var(--primary)';
+            
+            // Check the radio button
+            document.getElementById('type' + (type === 'free' ? 'Free' : 'Premium')).checked = true;
+        }
+        
+        // Simple hash function
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return hash.toString(36);
+        }
+
+        // Check session on load
+        window.onload = function() {
+            const session = JSON.parse(sessionStorage.getItem('lookSyncSession') || 'null');
+            const remember = JSON.parse(localStorage.getItem('lookSyncRemember') || 'null');
+            
+            if (session || remember) {
+                const user = session || remember;
+                showMainApp(user);
+            } else {
+                showLogin();
+            }
+            
+            // Set default account type selection
+            const freeCard = document.querySelector('#registerPage .card');
+            if (freeCard) {
+                selectAccountType('free', freeCard);
+            }
+        };
+
+        function showLogin() {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+
+        function showRegister() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'block';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regPasswordConfirm').value;
+            
+            if (password !== confirmPassword) {
+                alert('Password tidak cocok!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password harus minimal 6 karakter!');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('lookSyncUsers') || '[]');
+            
+            if (users.find(u => u.email === email)) {
+                alert('Email sudah terdaftar!');
+                return;
+            }
+            
+            const newUser = {
+                name: name,
+                email: email,
+                password: simpleHash(password),
+                accountType: selectedAccountType,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('lookSyncUsers', JSON.stringify(users));
+            
+            alert(`Registrasi berhasil sebagai akun ${selectedAccountType === 'premium' ? 'Premium' : 'Free'}! Silakan login.`);
+            showLogin();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+            
+            const users = JSON.parse(localStorage.getItem('lookSyncUsers') || '[]');
+            const user = users.find(u => u.email === email && u.password === simpleHash(password));
+            
+            if (!user) {
+                alert('Email atau password salah!');
+                return;
+            }
+            
+            const sessionUser = {
+                name: user.name,
+                email: user.email,
+                accountType: user.accountType
+            };
+            
+            sessionStorage.setItem('lookSyncSession', JSON.stringify(sessionUser));
+            
+            if (remember) {
+                localStorage.setItem('lookSyncRemember', JSON.stringify(sessionUser));
+            }
+            
+            showMainApp(sessionUser);
+        }
+
+        function showMainApp(user) {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            document.getElementById('userName').textContent = user.name;
+            
+            // Show account type badge
+            const badge = user.accountType === 'premium' 
+                ? '<span class="account-type-badge"><i class="bi bi-star-fill"></i> PREMIUM</span>'
+                : '<span class="free-badge"><i class="bi bi-person"></i> FREE</span>';
+            document.getElementById('accountTypeBadge').innerHTML = badge;
+            
+            // Show upgrade button only for free users
+            if (user.accountType === 'free') {
+                document.getElementById('upgradeBtn').style.display = 'block';
+            } else {
+                document.getElementById('upgradeBtn').style.display = 'none';
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('lookSyncSession');
+            localStorage.removeItem('lookSyncRemember');
+            showLogin();
+        }
+
+        function analyzeBody(e) {
+            e.preventDefault();
+            
+            const session = JSON.parse(sessionStorage.getItem('lookSyncSession') || 'null');
+            const isPremium = session && session.accountType === 'premium';
+            
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const bust = parseFloat(document.getElementById('bust').value);
+            const waist = parseFloat(document.getElementById('waist').value);
+            const hips = parseFloat(document.getElementById('hips').value);
+            const shoulder = parseFloat(document.getElementById('shoulder').value);
+            
+            // Calculate BMI
+            const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+            let bmiCategory = '';
+            if (bmi < 18.5) bmiCategory = 'Kurus';
+            else if (bmi < 25) bmiCategory = 'Normal';
+            else if (bmi < 30) bmiCategory = 'Gemuk';
+            else bmiCategory = 'Obesitas';
+            
+            // Calculate Waist-Hip Ratio
+            const whr = (waist / hips).toFixed(2);
+            
+            // Determine body type
+            let bodyType = '';
+            let bodyTypeDesc = '';
+            let freeRecommendations = [];
+            let premiumRecommendations = [];
+            
+            const bustWaistDiff = bust - waist;
+            const hipsWaistDiff = hips - waist;
+            const bustHipsDiff = Math.abs(bust - hips);
+            
+            if (bustHipsDiff <= 5 && waist < bust - 15) {
+                bodyType = 'Jam Pasir (Hourglass)';
+                bodyTypeDesc = 'Tubuhmu memiliki proporsi yang seimbang dengan pinggang yang jelas. Bentuk tubuh ini dianggap ideal!';
+                freeRecommendations = [
+                    'Pilih pakaian yang menonjolkan pinggang seperti wrap dress atau belt',
+                    'Atasan yang pas di badan dan rok pensil sangat cocok untukmu',
+                    'Hindari pakaian yang terlalu longgar karena akan menyembunyikan lekuk tubuhmu'
+                ];
+                premiumRecommendations = [
+                    'Gunakan high-waisted pants atau skirt untuk menonjolkan proporsi tubuh',
+                    'Dress dengan belt atau peplum detail sangat memuji bentuk tubuhmu',
+                    'Untuk acara formal, pilih bodycon dress atau fit-and-flare dress',
+                    'Hindari oversized clothing - pilih fitted atau semi-fitted cuts',
+                    'V-neck dan scoop neck akan menambah keanggunan penampilanmu'
+                ];
+            } else if (hips > bust + 5 && hipsWaistDiff > 10) {
+                bodyType = 'Pir (Pear)';
+                bodyTypeDesc = 'Pinggul lebih lebar dari bahu dan dada. Kamu memiliki bentuk tubuh yang feminin!';
+                freeRecommendations = [
+                    'Kenakan atasan yang menarik perhatian seperti off-shoulder atau statement necklace',
+                    'A-line skirt dan wide-leg pants akan menyeimbangkan proporsi tubuhmu',
+                    'Hindari skinny jeans, pilih bootcut atau flare jeans'
+                ];
+                premiumRecommendations = [
+                    'Dark color di bagian bawah dan bright color di bagian atas',
+                    'Structured blazers dan statement tops sempurna untuk menambah volume di bagian atas',
+                    'Boat neck dan horizontal stripes di bagian atas akan menyeimbangkan siluet',
+                    'Empire waist dresses sangat cocok untuk bentuk tubuhmu',
+                    'Pilih celana dengan side pockets untuk menghindari tambahan volume'
+                ];
+            } else if (bust > hips + 5 && bustWaistDiff > 10) {
+                bodyType = 'Segitiga Terbalik (Inverted Triangle)';
+                bodyTypeDesc = 'Bahu dan dada lebih lebar dari pinggul. Bentuk tubuh atletis yang cantik!';
+                freeRecommendations = [
+                    'Kenakan celana atau rok dengan detail seperti pockets atau patterns',
+                    'V-neck atau scoop neck akan menyeimbangkan bagian atas tubuhmu',
+                    'Hindari shoulder pads atau puff sleeves'
+                ];
+                premiumRecommendations = [
+                    'Flare pants dan pleated skirts cocok untukmu',
+                    'A-line dresses dan skirts akan menciptakan proporsi yang lebih seimbang',
+                    'Gunakan statement necklaces untuk menarik perhatian ke tengah tubuh',
+                    'Pilih tops dengan vertical details untuk menciptakan ilusi panjang',
+                    'Bright colors atau bold prints di bagian bawah, solid colors di bagian atas'
+                ];
+            } else if (bustWaistDiff < 10 && hipsWaistDiff < 10) {
+                bodyType = 'Persegi (Rectangle)';
+                bodyTypeDesc = 'Tubuhmu memiliki proporsi yang lurus dari bahu hingga pinggul. Look sporty dan chic!';
+                freeRecommendations = [
+                    'Ciptakan ilusi pinggang dengan belt atau peplum tops',
+                    'Layered clothing akan menambah dimensi pada tubuhmu',
+                    'Gunakan textures dan patterns untuk menambah volume'
+                ];
+                premiumRecommendations = [
+                    'Crop tops dan high-waisted bottoms sangat cocok',
+                    'Ruffles, bows, dan embellishments akan menambah feminine curves',
+                    'Color blocking di area pinggang akan menciptakan ilusi curves',
+                    'Fit-and-flare dresses sempurna untuk menambah definisi',
+                    'Pilih tops dengan diagonal atau horizontal stripes'
+                ];
+            } else {
+                bodyType = 'Apel (Apple)';
+                bodyTypeDesc = 'Berat badan terpusat di bagian tengah tubuh. Kamu memiliki kaki yang indah!';
+                freeRecommendations = [
+                    'Empire waist dress akan sangat memuji bentuk tubuhmu',
+                    'V-neck dan wrap tops untuk menarik perhatian ke atas',
+                    'Tunjukkan kakimu dengan mini skirts atau shorts'
+                ];
+                premiumRecommendations = [
+                    'Hindari tight-fitting tops, pilih yang flowing',
+                    'A-line cuts dan empire waist sangat flattering',
+                    'Gunakan single-breasted jackets untuk menciptakan garis vertikal',
+                    'Pilih tops dengan details di bahu atau neckline',
+                    'Mid-rise pants dengan straight atau wide legs sangat cocok'
+                ];
+            }
+            
+            // Display results
+            document.getElementById('bodyType').textContent = bodyType;
+            document.getElementById('bodyTypeDesc').textContent = bodyTypeDesc;
+            document.getElementById('bmiValue').textContent = bmi;
+            document.getElementById('bmiCategory').textContent = bmiCategory;
+            document.getElementById('whrValue').textContent = whr;
+            document.getElementById('heightValue').textContent = height + ' cm';
+            document.getElementById('weightValue').textContent = weight + ' kg';
+            
+            // Premium analysis
+            if (isPremium) {
+                document.getElementById('premiumAnalysisSection').style.display = 'block';
+                
+                // Body proportion analysis
+                let proportionText = '';
+                if (shoulder > hips + 5) {
+                    proportionText = 'Bahu lebih lebar dari pinggul, menciptakan siluet atletis. Fokus pada menambah volume di bagian bawah.';
+                } else if (hips > shoulder + 5) {
+                    proportionText = 'Pinggul lebih lebar dari bahu, bentuk feminin klasik. Balance dengan menambah struktur di bagian atas.';
+                } else {
+                    proportionText = 'Proporsi seimbang antara bahu dan pinggul. Kamu punya keleluasaan dalam memilih berbagai style!';
+                }
+                document.getElementById('bodyProportionAnalysis').textContent = proportionText;
+                
+                // Health analysis
+                let healthText = '';
+                if (bmi < 18.5) {
+                    healthText = 'BMI menunjukkan berat badan di bawah normal. Konsultasikan dengan ahli gizi untuk program peningkatan berat badan yang sehat.';
+                } else if (bmi < 25) {
+                    healthText = 'BMI dalam rentang normal yang sehat! Pertahankan pola makan seimbang dan aktivitas fisik rutin.';
+                } else if (bmi < 30) {
+                    healthText = 'BMI menunjukkan sedikit kelebihan berat badan. Program olahraga teratur dan diet seimbang bisa membantu.';
+                } else {
+                    healthText = 'BMI menunjukkan obesitas. Disarankan konsultasi dengan profesional kesehatan untuk program penurunan berat badan.';
+                }
+                document.getElementById('healthAnalysis').textContent = healthText;
+                
+                // Color recommendation based on body type
+                let colorText = '';
+                if (bodyType.includes('Jam Pasir')) {
+                    colorText = 'Monochromatic colors (satu warna berbeda shade) akan memperpanjang siluet. Jewel tones sempurna untukmu!';
+                } else if (bodyType.includes('Pir')) {
+                    colorText = 'Light colors di atas, dark colors di bawah. Pastels, whites, dan bright colors untuk atasan.';
+                } else if (bodyType.includes('Segitiga Terbalik')) {
+                    colorText = 'Dark colors di atas, bright atau light colors di bawah. Navy, black, charcoal untuk tops.';
+                } else if (bodyType.includes('Persegi')) {
+                    colorText = 'Color blocking sangat cocok! Mix warna berani untuk menciptakan curves visual.';
+                } else {
+                    colorText = 'Solid dark colors untuk torso, bright colors untuk neckline dan legs. Vertical stripes sangat flattering.';
+                }
+                document.getElementById('colorRecommendation').textContent = colorText;
+                
+                // Special tips
+                let specialText = '';
+                if (whr < 0.75) {
+                    specialText = 'WHR menunjukkan proporsi sangat baik! Fokus pada maintaining posture yang baik untuk penampilan maksimal.';
+                } else if (whr < 0.85) {
+                    specialText = 'WHR dalam rentang sehat. Core exercises akan membantu mempertahankan proporsi yang baik.';
+                } else {
+                    specialText = 'WHR tinggi. Cardio dan core strengthening exercises sangat direkomendasikan untuk kesehatan optimal.';
+                }
+                document.getElementById('specialTips').textContent = specialText;
+            } else {
+                document.getElementById('premiumAnalysisSection').style.display = 'none';
+            }
+            
+            // Display recommendations based on account type
+            let allRecs = isPremium ? [...freeRecommendations, ...premiumRecommendations] : freeRecommendations;
+            let recsHtml = '';
+            
+            for (let i = 0; i < allRecs.length; i++) {
+                recsHtml += `
+                    <div class="recommendation-item">
+                        <h5><i class="bi bi-check-circle-fill" style="color: var(--primary);"></i> Tips ${i + 1}</h5>
+                        <p>${allRecs[i]}</p>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('allRecommendations').innerHTML = recsHtml;
+            
+            // Show upgrade section for free users
+            if (!isPremium) {
+                document.getElementById('upgradeSection').style.display = 'block';
+            } else {
+                document.getElementById('upgradeSection').style.display = 'none';
+            }
+            
+            // Show results section
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showUpgradeModal() {
+            alert('🌟 Upgrade ke Premium!\n\nDapatkan akses penuh ke:\n\n✨ Analisis bentuk tubuh mendalam dengan 4 kategori tambahan\n✨ 5+ rekomendasi outfit lengkap\n✨ Personal color analysis\n✨ Tips untuk berbagai acara (formal, casual, date, dll)\n✨ Rekomendasi aksesori yang sempurna\n✨ Update konten fashion bulanan\n\nHubungi kami untuk informasi lebih lanjut!');
+        }
+    </script>
+</body>
+</html>
