@@ -2,8 +2,9 @@
 
 Platform web yang memberikan rekomendasi gaya berpakaian yang dipersonalisasikan berdasarkan bentuk tubuh pengguna.
 
-# Team 
+# Team
 
-# Ketua 
+# Ketua
 Callista Christy Widjaja
+
 
