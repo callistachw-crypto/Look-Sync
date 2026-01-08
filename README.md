@@ -7,4 +7,5 @@ Platform web yang memberikan rekomendasi gaya berpakaian yang dipersonalisasikan
 # Ketua
 Callista Christy Widjaja
 
-
+# Anggota
+Titto Ridho H 
