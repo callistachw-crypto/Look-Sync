@@ -134,8 +134,8 @@
         
         .outfit-image {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 100%;
+            /* object-fit: cover; */
             border-radius: 10px;
             margin: 10px 0;
         }
@@ -278,7 +278,7 @@
                     <div class="body-shape-result">
                         <div class="text-center">
                             <h3 id="bodyShapeType"></h3>
-                            <svg id="bodyShapeIllustration" class="body-shape-illustration"></svg>
+                           <div id="bodyShapeIllustration" class="body-shape-illustration"></div>
                             <p id="bodyShapeDescription" class="mt-3"></p>
                         </div>
                     </div>
@@ -450,27 +450,27 @@
                 'hourglass': {
                     name: 'Bentuk Jam Pasir (Hourglass)',
                     description: 'Tubuh Anda memiliki proporsi yang seimbang antara bahu dan pinggul dengan pinggang yang jelas. Bentuk tubuh ini dianggap ideal dan dapat mengenakan berbagai gaya pakaian.',
-                    svg: '<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M100 50 Q80 50 70 80 Q65 120 70 150 Q80 180 100 180 Q120 180 130 150 Q135 120 130 80 Q120 50 100 50" fill="#F39EB6" stroke="#333" stroke-width="2"/><ellipse cx="100" cy="50" rx="25" ry="35" fill="#F39EB6" stroke="#333" stroke-width="2"/></svg>'
+                    svg: '<img src="img/hourglass remove.png" alt="" style="width:280px">'       
                 },
                 'pear': {
                     name: 'Bentuk Pir (Pear)',
                     description: 'Pinggul Anda lebih lebar dibanding bahu dengan pinggang yang ramping. Bentuk ini memberikan siluet feminin yang menarik.',
-                    svg: '<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M100 50 Q85 50 75 80 Q60 120 65 150 Q75 200 100 200 Q125 200 135 150 Q140 120 125 80 Q115 50 100 50" fill="#F39EB6" stroke="#333" stroke-width="2"/><ellipse cx="100" cy="50" rx="20" ry="30" fill="#F39EB6" stroke="#333" stroke-width="2"/></svg>'
+                    svg: '<img src="img/pear.jpg" alt="" style="width:150px">'         
                 },
                 'apple': {
                     name: 'Bentuk Apel (Apple)',
                     description: 'Bagian atas tubuh Anda lebih berisi dengan kaki yang ramping. Fokus pada memanjangkan tubuh dan menciptakan definisi pinggang.',
-                    svg: '<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M100 50 Q75 50 65 80 Q55 120 60 150 Q70 180 100 180 Q130 180 140 150 Q145 120 135 80 Q125 50 100 50" fill="#F39EB6" stroke="#333" stroke-width="2"/><ellipse cx="100" cy="50" rx="30" ry="35" fill="#F39EB6" stroke="#333" stroke-width="2"/></svg>'
+                    svg: '<img src="img/apple remove.png" alt="" style="width:200px">'
                 },
                 'inverted-triangle': {
                     name: 'Segitiga Terbalik (Inverted Triangle)',
                     description: 'Bahu Anda lebih lebar dari pinggul dengan kaki yang ramping. Bentuk atletis ini cocok untuk menciptakan keseimbangan visual.',
-                    svg: '<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M100 50 Q70 50 60 80 Q55 120 65 150 Q75 180 100 180 Q125 180 135 150 Q145 120 140 80 Q130 50 100 50" fill="#F39EB6" stroke="#333" stroke-width="2"/><ellipse cx="100" cy="50" rx="35" ry="30" fill="#F39EB6" stroke="#333" stroke-width="2"/></svg>'
+                    svg: '<img src="img/inverted triangle.jpg" alt="" style="width:150px">'
                 },
                 'rectangle': {
                     name: 'Bentuk Persegi (Rectangle)',
                     description: 'Bahu, pinggang, dan pinggul Anda memiliki lebar yang hampir sama. Bentuk ini memungkinkan Anda bereksperimen dengan berbagai siluet.',
-                    svg: '<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M100 50 Q85 50 75 80 L70 150 Q80 180 100 180 Q120 180 130 150 L125 80 Q115 50 100 50" fill="#F39EB6" stroke="#333" stroke-width="2"/><ellipse cx="100" cy="50" rx="25" ry="30" fill="#F39EB6" stroke="#333" stroke-width="2"/></svg>'
+                    svg: '<img src="img/persegi.jpg" alt="" style="width:150px">'
                 }
             };
             return info[shape];
@@ -483,7 +483,7 @@
                         top: 'Atasan Fit & Flare',
                         bottom: 'Celana Highwaist',
                         description: 'Menonjolkan lekuk tubuh dengan elegan',
-                        image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400'
+                        image: 'img/shorts hourglass.jpg'
                     },
                     {
                         top: 'Wrap Top',
@@ -493,9 +493,8 @@
                     },
                     {
                         top: 'Blouse V-Neck',
-                        bottom: 'Jeans Skinny',
                         description: 'Kasual namun tetap stylish',
-                        image: 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400'
+                        image: 'img/v neck.png'
                     },
                     {
                         top: 'Crop Top',
