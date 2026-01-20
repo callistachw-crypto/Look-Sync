@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Look Sync - Sync Your Style, Perfect Your Look</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Ramaraja&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap');
+        
+        :root {
+            --color-1: #B8DB80;
+            --color-2: #F7F6D3;
+            --color-3: #FFE4EF;
+            --color-4: #F39EB6;
+            --color-5: #FCF8F8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Landing Page Styles */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--color-2) 0%, var(--color-3) 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--color-4);
+            opacity: 0.1;
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+        
+        .app-title {
+            font-family: 'Monsieur La Doulaise', cursive;
+            font-size: 5rem;
+            color: var(--color-4);
+            margin-bottom: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .app-slogan {
+            font-family: 'Ramaraja', serif;
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-4) 0%, #e08ba4 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(243, 158, 182, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(243, 158, 182, 0.4);
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid var(--color-4);
+            color: var(--color-4);
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            background: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--color-4);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .features-section {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-4);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .feature-card {
+            background: var(--color-5);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--color-4);
+            box-shadow: 0 10px 30px rgba(243, 158, 182, 0.2);
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-4);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        .pricing-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--color-2) 0%, var(--color-3) 100%);
+        }
+        
+        .pricing-card {
+            background: var(--color-5);
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.premium {
+            border-color: #FFD700;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFE4EF 100%);
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-4);
+            margin-bottom: 1rem;
+        }
+        
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-4);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-period {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-features li {
+            padding: 10px 0;
+            color: #555;
+        }
+        
+        .plan-features li::before {
+            content: "✓ ";
+            color: var(--color-1);
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        
+        .premium-badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--color-4) 0%, #e08ba4 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .btn-light {
+            background: white;
+            color: var(--color-4);
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-light:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+        }
+        
+        .footer {
+            background: #2c2c2c;
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-title {
+            font-family: 'Monsieur La Doulaise', cursive;
+            font-size: 2rem;
+            color: var(--color-4);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--color-4);
+        }
+        
+        /* Auth & Main App Styles */
+        .auth-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--color-2) 0%, var(--color-3) 100%);
+            padding: 20px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: var(--color-5);
+            margin-bottom: 2rem;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--color-1) 0%, #a0c570 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid var(--color-3);
+            padding: 12px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--color-4);
+            box-shadow: 0 0 0 0.2rem rgba(243, 158, 182, 0.25);
+        }
+        
+        .navbar {
+            background: var(--color-5);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .body-shape-result {
+            background: var(--color-3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .recommendation-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid var(--color-4);
+        }
+        
+        .body-shape-illustration {
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        .outfit-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .app-title {
+                font-size: 3rem;
+            }
+            .app-slogan {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landingPage">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h1 class="app-title">Look Sync</h1>
+                        <p class="app-slogan">sync your style, perfect your look</p>
+                        <p class="hero-description">
+                            Temukan gaya berpakaian yang sempurna untuk bentuk tubuh Anda! 
+                            Look Sync menganalisis proporsi tubuh Anda dan memberikan rekomendasi 
+                            fashion yang personal dan akurat.
+                        </p>
+                        <div class="d-flex gap-3 flex-wrap justify-content-center">
+                            <button class="btn btn-primary" onclick="showAuthPage()">
+                                Mulai Sekarang
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="scrollToSection('features')">
+                                Pelajari Lebih Lanjut
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <h2 class="section-title">Mengapa Look Sync?</h2>
+                <p class="section-subtitle">Fitur-fitur unggulan yang membantu Anda tampil percaya diri</p>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <h3 class="feature-title">Analisis Akurat</h3>
+                            <p class="feature-description">
+                                Algoritma canggih menganalisis 6 ukuran tubuh untuk menentukan 
+                                bentuk tubuh Anda dengan presisi tinggi
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <h3 class="feature-title">Rekomendasi Personal</h3>
+                            <p class="feature-description">
+                                Dapatkan saran outfit yang disesuaikan khusus untuk bentuk tubuh 
+                                Anda, lengkap dengan tips styling
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <h3 class="feature-title">Mudah Digunakan</h3>
+                            <p class="feature-description">
+                                Interface yang simpel dan intuitif - cukup masukkan ukuran tubuh 
+                                dan dapatkan hasil dalam hitungan detik
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section" id="pricing">
+            <div class="container">
+                <h2 class="section-title">Pilih Paket Anda</h2>
+                <p class="section-subtitle">Mulai gratis atau upgrade untuk fitur lengkap</p>
+                
+                <div class="row justify-content-center g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="pricing-card">
+                            <h3 class="plan-name">Free</h3>
+                            <div class="plan-price">Rp 0</div>
+                            <p class="plan-period">Gratis Selamanya</p>
+                            <ul class="plan-features">
+                                <li>Analisis bentuk tubuh dasar</li>
+                                <li>3 rekomendasi outfit</li>
+                                <li>Tips styling umum</li>
+                                <li>Akses selamanya</li>
+                            </ul>
+                            <button class="btn btn-outline-primary w-100" onclick="showAuthPage()">
+                                Mulai Gratis
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="pricing-card">
+                            <h3 class="plan-name">1 Bulan</h3>
+                            <div class="plan-price">Rp 15K</div>
+                            <p class="plan-period">Per Bulan</p>
+                            <ul class="plan-features">
+                                <li>Analisis bentuk tubuh lengkap</li>
+                                <li>5+ rekomendasi outfit</li>
+                                <li>Tips styling premium</li>
+                                <li>Ilustrasi visual</li>
+                                <li>Analisis mendalam</li>
+                                <li>Update rekomendasi terbaru</li>
+                            </ul>
+                            <button class="btn btn-outline-primary w-100" onclick="showAuthPage()">
+                                Pilih Paket
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="pricing-card premium">
+                            <span class="premium-badge">👑 Paling Populer</span>
+                            <h3 class="plan-name">3 Bulan</h3>
+                            <div class="plan-price">Rp 25K</div>
+                            <p class="plan-period">Hemat Rp 20K</p>
+                            <ul class="plan-features">
+                                <li>Analisis bentuk tubuh lengkap</li>
+                                <li>5+ rekomendasi outfit</li>
+                                <li>Tips styling premium</li>
+                                <li>Ilustrasi visual</li>
+                                <li>Analisis mendalam</li>
+                                <li>Update rekomendasi terbaru</li>
+                            </ul>
+                            <button class="btn btn-primary w-100" onclick="showAuthPage()">
+                                Pilih Paket
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="pricing-card">
+                            <h3 class="plan-name">6 Bulan</h3>
+                            <div class="plan-price">Rp 40K</div>
+                            <p class="plan-period">Hemat Rp 50K</p>
+                            <ul class="plan-features">
+                                <li>Analisis bentuk tubuh lengkap</li>
+                                <li>5+ rekomendasi outfit</li>
+                                <li>Tips styling premium</li>
+                                <li>Ilustrasi visual</li>
+                                <li>Analisis mendalam</li>
+                                <li>Update rekomendasi terbaru</li>
+                            </ul>
+                            <button class="btn btn-outline-primary w-100" onclick="showAuthPage()">
+                                Pilih Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Siap Menemukan Gaya Sempurna Anda?</h2>
+                <p class="cta-description">
+                    Bergabunglah dengan ribuan pengguna yang sudah menemukan kepercayaan diri 
+                    melalui rekomendasi fashion yang tepat
+                </p>
+                <button class="btn btn-light btn-lg" onclick="showAuthPage()">
+                    Daftar Gratis Sekarang
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <h3 class="footer-title">Look Sync</h3>
+                        <p style="color: #ddd;">
+                            Sync your style, perfect your look. 
+                            Temukan gaya berpakaian yang sempurna untuk Anda.
+                        </p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5 style="color: var(--color-4); margin-bottom: 1rem;">Menu</h5>
+                        <ul class="footer-links">
+                            <li><a href="#features">Fitur</a></li>
+                            <li><a href="#pricing">Harga</a></li>
+                            <li><a href="#">Tentang Kami</a></li>
+                            <li><a href="#">Kontak</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5 style="color: var(--color-4); margin-bottom: 1rem;">Ikuti Kami</h5>
+                        <ul class="footer-links">
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">TikTok</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr style="border-color: #555; margin: 30px 0 20px;">
+                <p class="text-center" style="color: #999;">
+                    &copy; 2025 Look Sync. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Auth Pages -->
+    <div id="authPage" class="hidden">
+        <div class="auth-container">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="text-center mb-4">
+                            <button class="btn btn-link" onclick="backToLanding()" style="color: var(--color-4);">
+                                ← Kembali ke Beranda
+                            </button>
+                        </div>
+                        <h1 class="app-title text-center">Look Sync</h1>
+                        <p class="app-slogan text-center">sync your style, perfect your look</p>
+                        
+                        <!-- Login Form -->
+                        <div class="card" id="loginForm">
+                            <div class="card-body p-4">
+                                <h3 class="text-center mb-4">Masuk ke Akun</h3>
+                                <form onsubmit="handleLogin(event)">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="loginEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="loginPassword" required>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">Ingat Saya</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                                    <p class="text-center mt-3">Belum punya akun? <a href="#" onclick="showRegister()">Daftar</a></p>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Register Form -->
+                        <div class="card hidden" id="registerForm">
+                            <div class="card-body p-4">
+                                <h3 class="text-center mb-4">Buat Akun Baru</h3>
+                                <form onsubmit="handleRegister(event)">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="registerName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="registerEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password (minimal 6 karakter)</label>
+                                        <input type="password" class="form-control" id="registerPassword" minlength="6" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Konfirmasi Password</label>
+                                        <input type="password" class="form-control" id="registerConfirmPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Daftar</button>
+                                    <p class="text-center mt-3">Sudah punya akun? <a href="#" onclick="showLogin()">Masuk</a></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <div style="min-height: 100vh; background: linear-gradient(135deg, var(--color-2) 0%, var(--color-3) 100%); padding: 20px;">
+            <!-- Navbar -->
+            <div class="navbar">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                            <h3 class="mb-0" style="font-family: 'Monsieur La Doulaise', cursive; color: var(--color-4);">Look Sync</h3>
+                            <small id="userGreeting"></small>
+                        </div>
+                        <div>
+                            <span class="me-3" id="membershipBadge"></span>
+                            <button class="btn btn-sm btn-outline-danger" onclick="handleLogout()">Keluar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- Input Form -->
+                <div class="card" id="inputSection">
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Data Fisik Anda</h4>
+                        <form onsubmit="analyzeBody(event)">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tinggi Badan (cm)</label>
+                                    <input type="number" class="form-control" id="height" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Berat Badan (kg)</label>
+                                    <input type="number" class="form-control" id="weight" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Lingkar Dada (cm)</label>
+                                    <input type="number" class="form-control" id="bust" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Lingkar Pinggang (cm)</label>
+                                    <input type="number" class="form-control" id="waist" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Lingkar Pinggul (cm)</label>
+                                    <input type="number" class="form-control" id="hip" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Lebar Bahu (cm)</label>
+                                    <input type="number" class="form-control" id="shoulder" required>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Analisis Bentuk Tubuh</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="card hidden" id="resultsSection">
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Hasil Analisis</h4>
+                        
+                        <div class="body-shape-result">
+                            <div class="text-center">
+                                <h3 id="bodyShapeType"></h3>
+                               <div id="bodyShapeIllustration" class="body-shape-illustration"></div>
+                                <p id="bodyShapeDescription" class="mt-3"></p>
+                            </div>
+                        </div>
+
+                        <div id="recommendationsSection">
+                            <h5 class="mt-4 mb-3">Rekomendasi Gaya Berpakaian</h5>
+                            <div id="recommendations"></div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success" onclick="resetForm()">Analisis Lagi</button>
+                            <button class="btn btn-primary" id="upgradeToPremium" onclick="showUpgradeModal()">Upgrade ke Premium</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div class="modal fade" id="upgradeModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none;">
+                <div class="modal-body p-5 text-center">
+                    <h3 class="

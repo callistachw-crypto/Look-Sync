@@ -29,7 +29,7 @@
             font-family: 'Outfit', sans-serif;
             background: linear-gradient(135deg, var(--color-2) 0%, var(--color-3) 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
         
         .app-title {
@@ -39,6 +39,7 @@
             text-align: center;
             margin-bottom: 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1;
         }
         
         .app-slogan {
@@ -123,33 +124,129 @@
         }
         
         .body-shape-illustration {
-             max-width: 200px;
-    margin: 20px auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;        
+            max-width: 280px;
+            margin: 20px auto;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;        
         }
         
         .hidden {
             display: none !important;
         }
         
+        .outfit-image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
         .outfit-image {
-            width: 100%;
+           width: 100%;
             height: 100%;
             /* object-fit: cover; */
             border-radius: 10px;
             margin: 10px 0;
-            max-height: 150px;
+            max-height: 178px;
             max-width: 170px;
         }
         
+        .recommendation-content {
+            text-align: left;
+        }
+        
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .app-title {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             .app-slogan {
                 font-size: 1rem;
+            }
+            .navbar {
+                padding: 10px;
+            }
+            .navbar h3 {
+                font-size: 1.5rem;
+            }
+            .card-body {
+                padding: 20px !important;
+            }
+            .body-shape-illustration {
+                max-width: 200px;
+            }
+            .btn-primary, .btn-success {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .modal-body {
+                padding: 20px !important;
+            }
+            .recommendation-card {
+                padding: 15px;
+            }
+            .outfit-image {
+                max-width: 140px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .app-title {
+                font-size: 2.5rem;
+            }
+            body {
+                padding: 10px;
+            }
+            .row {
+                margin-left: -8px;
+                margin-right: -8px;
+            }
+            .col-md-6 {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+            .btn-lg {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            .modal-dialog {
+                margin: 10px;
+            }
+            .body-shape-illustration {
+                max-width: 180px;
+            }
+            .outfit-image {
+                max-width: 120px;
+                height: 100px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .app-title {
+                font-size: 2rem;
+            }
+            .app-slogan {
+                font-size: 0.9rem;
+            }
+            .navbar > .container-fluid {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .navbar .d-flex {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .navbar small {
+                font-size: 0.8rem;
+            }
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+            .outfit-image {
+                max-width: 100px;
+                height: 90px;
             }
         }
     </style>
@@ -455,27 +552,27 @@
                 'hourglass': {
                     name: 'Bentuk Jam Pasir (Hourglass)',
                     description: 'Tubuh Anda memiliki proporsi yang seimbang antara bahu dan pinggul dengan pinggang yang jelas. Bentuk tubuh ini dianggap ideal dan dapat mengenakan berbagai gaya pakaian.',
-                    svg: '<img src="img/hourglass remove.png" alt="" style="width:280px">'       
+                    svg: '<img src="img/hourglass remove.png" alt="Hourglass Body Shape" style="width:100%; max-width:280px;">'       
                 },
                 'pear': {
                     name: 'Bentuk Pir (Pear)',
                     description: 'Pinggul Anda lebih lebar dibanding bahu dengan pinggang yang ramping. Bentuk ini memberikan siluet feminin yang menarik.',
-                    svg: '<img src="img/pear remove.png" alt="" style="width:280px">'         
+                    svg: '<img src="img/pear remove.png" alt="Pear Body Shape" style="width:100%; max-width:280px;">'         
                 },
                 'apple': {
                     name: 'Bentuk Apel (Apple)',
                     description: 'Bagian atas tubuh Anda lebih berisi dengan kaki yang ramping. Fokus pada memanjangkan tubuh dan menciptakan definisi pinggang.',
-                    svg: '<img src="img/apple remove.png" alt="" style="width:280px">'
+                    svg: '<img src="img/apple remove.png" alt="Apple Body Shape" style="width:100%; max-width:280px;">'
                 },
                 'inverted-triangle': {
                     name: 'Segitiga Terbalik (Inverted Triangle)',
                     description: 'Bahu Anda lebih lebar dari pinggul dengan kaki yang ramping. Bentuk atletis ini cocok untuk menciptakan keseimbangan visual.',
-                    svg: '<img src="img/inverted triangle remove.png" alt="" style="width:280px">'
+                    svg: '<img src="img/inverted triangle remove.png" alt="Inverted Triangle Body Shape" style="width:100%; max-width:280px;">'
                 },
                 'rectangle': {
                     name: 'Bentuk Persegi (Rectangle)',
                     description: 'Bahu, pinggang, dan pinggul Anda memiliki lebar yang hampir sama. Bentuk ini memungkinkan Anda bereksperimen dengan berbagai siluet.',
-                    svg: '<img src="img/regtangle remove.png" alt="" style="width:280px">'
+                    svg: '<img src="img/regtangle remove.png" alt="Rectangle Body Shape" style="width:100%; max-width:280px;">'
                 }
             };
             return info[shape];
@@ -485,33 +582,37 @@
             const recommendations = {
                 'hourglass': [
                     {
-                    top:'',
                         bottom: 'Celana Highwaist',
                         description: 'Menonjolkan lekuk tubuh dengan elegan',
                         image: 'img/highwaist.png'
                     },
                     {
                         top: 'Wrap Top',
+                        bottom: '',
                         description: 'Sempurna untuk acara formal',
                         image: 'img/wrap top.png'
                     },
                     {
                         top: 'Blouse V-Neck',
+                        bottom: '',
                         description: 'Kasual namun tetap stylish',
                         image: 'img/v neck.png'
                     },
-                {
+                    {
+                        top: '',
                         bottom: 'Kulot',
                         description: 'Trendi dan nyaman',
                         image: 'img/kulot.png'
                     },
                     {
                         top: 'Bodycon Dress',
+                        bottom: '',
                         description: 'Memaksimalkan siluet tubuh',
                         image: 'img/bodycon dress.png'
                     },
                     {
                         top: 'Ruffled Blouse',
+                        bottom: '',
                         description: 'Elegan dan feminin untuk acara kasual',
                         image: 'img/ruffle blouse.png'
                     }
@@ -519,25 +620,30 @@
                 'pear': [
                     {
                         top: 'Ruffle Blouse',
+                        bottom: '',
                         description: 'Menyeimbangkan proporsi tubuh',
                         image: 'img/ruffle blouse.png'
                     },
                     {
                         top: 'Blazer Struktural',
+                        bottom: '',
                         description: 'Profesional dan proporsional',
                         image: 'img/blazer struktural.png'
                     },
                     {
                         top: 'Off-Shoulder Top',
+                        bottom: '',
                         description: 'Menarik perhatian ke atas',
                         image: 'img/off shoulder top.png'
                     },
                     {
+                        top: '',
                         bottom: 'Wide Leg Pants',
                         description: 'Menciptakan keseimbangan visual',
                         image: 'img/wide leg pants.png'
                     },
                     {
+                        top: '',
                         bottom: 'Jeans Bootcut',
                         description: 'Feminine dan proporsional',
                         image: 'img/jeans bootcut.png'
@@ -545,26 +651,31 @@
                 ],
                 'apple': [
                     {
+                        top: '',
                         bottom: 'Celana Palazzo',
                         description: 'Menciptakan ilusi pinggang',
                         image: 'img/celana palazzo.png'
                     },
                     {
                         top: 'Tunik Flowy',
+                        bottom: '',
                         description: 'Nyaman dan menyamarkan perut',
                         image: 'img/tunik flowy.png'
                     },
                     {
                         top: 'V-Neck Dress',
+                        bottom: '',
                         description: 'Memanjangkan leher dan tubuh',
                         image: 'img/v necck dress.png'
                     },
                     {
                         top: 'Wrap Cardigan',
+                        bottom: '',
                         description: 'Menciptakan garis vertikal',
                         image: 'img/wrap cardigan.png'
                     },
                     {
+                        top: '',
                         bottom: 'Rok Midi',
                         description: 'Distraksi visual yang menarik',
                         image: 'img/rok midi.png'
@@ -572,26 +683,31 @@
                 ],
                 'inverted-triangle': [
                     {
+                        top: '',
                         bottom: 'Rok Flare',
                         description: 'Menyeimbangkan bahu lebar',
                         image: 'img/rok flare.png'
                     },
                     {
                         top: 'V-Neck Basic',
+                        bottom: '',
                         description: 'Menciptakan proporsi seimbang',
                         image: 'img/v neck basic.png'
                     },
                     {
                         top: 'Halter Neck',
+                        bottom: '',
                         description: 'memperjelas bahu serta punggung',
                         image: 'img/halter neck.png'
                     },
                     {
-                        bottom: 'celana palazzo',
+                        top: '',
+                        bottom: 'Celana Palazzo',
                         description: 'memberikan kesan elegan',
                         image: 'img/celana palazzo 3.png'
                     },
                     {
+                        top: '',
                         bottom: 'Kulot Bermotif',
                         description: 'Menarik perhatian ke bawah',
                         image: 'img/kulot bermotif.png'
@@ -600,25 +716,30 @@
                 'rectangle': [
                     {
                         top: 'Peplum Top',
+                        bottom: '',
                         description: 'Menciptakan siluet pinggang',
                         image: 'img/peplum top.png'
                     },
                     {
                         top: 'Asymetric Top',
+                        bottom: '',
                         description: 'Mendefinisikan bentuk bahu',
                         image: 'img/asymetric top.png'
                     },
                     {
                         top: 'Ruffled Blouse',
+                        bottom: '',
                         description: 'Menambah kesan feminim',
                         image: 'img/ruffled blouse 2.png'
                     },
                     {
                         top: 'Wrap Dress',
+                        bottom: '',
                         description: 'Menciptakan siluet yang dapat disesuaikan',
                         image: 'img/wrap dress png.png'
                     },
                     {
+                        top: '',
                         bottom: 'Rok A Line',
                         description: 'Membentuk siluet seperti huruf A',
                         image: 'img/rok a line png (1).png'
@@ -626,7 +747,7 @@
                 ]
             };
 
-            const limit = isPremium ? 5 : 3;
+            const limit = isPremium ? 6 : 3;
             return recommendations[shape].slice(0, limit);
         }
 
@@ -655,21 +776,27 @@
             document.getElementById('bodyShapeDescription').textContent = shapeInfo.description;
 
             // Display recommendations
-            const recommendationsHTML = recommendations.map((rec, index) => `
+            const recommendationsHTML = recommendations.map((rec, index) => {
+                // Hilangkan bagian "undefined" dengan mengecek apakah properti ada
+                const topText = rec.top ? `<p><strong>Atasan:</strong> ${rec.top}</p>` : '';
+                const bottomText = rec.bottom ? `<p><strong>Bawahan:</strong> ${rec.bottom}</p>` : '';
+                
+                return `
                 <div class="recommendation-card">
                     <h6 class="mb-3" style="color: var(--color-4);">Outfit ${index + 1}</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="${rec.image}" alt="${rec.top}" class="outfit-image">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 col-sm-6 outfit-image-container">
+                            <img src="${rec.image}" alt="${rec.top || rec.bottom}" class="outfit-image">
                         </div>
-                        <div class="col-md-6">
-                            <p><strong>Atasan:</strong> ${rec.top}</p>
-                            ${rec.bottom ? `<p><strong>Bawahan:</strong> ${rec.bottom}</p>` : ''}
+                        <div class="col-md-8 col-sm-6 recommendation-content">
+                            ${topText}
+                            ${bottomText}
                             <p><strong>Tips:</strong> ${rec.description}</p>
                         </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
 
             document.getElementById('recommendations').innerHTML = recommendationsHTML;
 
