@@ -526,24 +526,72 @@
             document.getElementById('upgradeToPremium').style.display = user.isPremium ? 'none' : 'inline-block';
         }
 
-        // Body Shape Analysis
+        // Body Shape Analysis - UPDATED VERSION
         function determineBodyShape(measurements) {
             const { bust, waist, hip, shoulder } = measurements;
-            const shoulderHipRatio = shoulder / hip;
-            const bustHipRatio = bust / hip;
-            const bustWaistDiff = bust - waist;
+            
+            // Hitung perbedaan untuk menentukan bentuk tubuh
+            const shoulderHipDiff = shoulder - hip;
+            const bustHipDiff = bust - hip;
             const hipWaistDiff = hip - waist;
-
-            if (Math.abs(bust - hip) <= 5 && (bust - waist) >= 15) {
+            const bustWaistDiff = bust - waist;
+            const shoulderWaistDiff = shoulder - waist;
+            
+            // Aturan berdasarkan data yang diberikan:
+            
+            // 1. Hourglass: Bahu dan pinggul seimbang, dengan pinggang yang jelas lebih kecil
+            // Kondisi: Bahu dan pinggul hampir sama (±3 cm) DAN pinggang jauh lebih kecil (minimal 15 cm lebih kecil)
+            if (Math.abs(shoulder - hip) <= 3 && 
+                Math.abs(bust - hip) <= 3 && 
+                (shoulder - waist) >= 15 && 
+                (hip - waist) >= 15) {
                 return 'hourglass';
-            } else if (hip > bust && hip > shoulder && hipWaistDiff >= 15) {
+            }
+            
+            // 2. Pear: Pinggul lebih lebar dari bahu, berat badan cenderung menumpuk di bagian bawah tubuh
+            // Kondisi: Pinggul > bahu (minimal 5 cm) DAN pinggul > dada
+            else if (hip > shoulder + 5 && hip > bust + 5) {
                 return 'pear';
-            } else if (bust > hip + 5 && shoulder > hip) {
+            }
+            
+            // 3. Apple: Tubuh bagian atas lebih lebar, pinggang kurang tegas, pinggul sempit
+            // Kondisi: Bahu > pinggul (minimal 5 cm) DAN dada > pinggul
+            else if (shoulder > hip + 5 && bust > hip + 5) {
                 return 'apple';
-            } else if (shoulder > hip + 5 && bust > hip) {
+            }
+            
+            // 4. Inverted Triangle: Bahu lebih lebar dari pinggul, dada dan perut lebih berisi, pinggul kecil
+            // Kondisi: Bahu > pinggul (minimal 8 cm) DAN bahu > dada
+            else if (shoulder > hip + 8 && shoulder > bust) {
                 return 'inverted-triangle';
-            } else {
+            }
+            
+            // 5. Rectangle: Bahu, pinggang, dan pinggul hampir sama lebarnya, siluet cenderung lurus
+            // Kondisi: Selisih maksimal 5 cm antara bahu, pinggang, dan pinggul
+            else if (Math.abs(shoulder - waist) <= 5 && 
+                     Math.abs(hip - waist) <= 5 && 
+                     Math.abs(shoulder - hip) <= 5) {
                 return 'rectangle';
+            }
+            
+            // Default fallback berdasarkan rasio yang paling dominan
+            else {
+                // Cek rasio terbesar untuk menentukan bentuk
+                const ratios = {
+                    'shoulderToHip': shoulder / hip,
+                    'bustToHip': bust / hip,
+                    'hipToWaist': hip / waist
+                };
+                
+                if (ratios.shoulderToHip > 1.1 && ratios.bustToHip > 1.1) {
+                    return 'apple';
+                } else if (ratios.hipToWaist > 1.15 && hip > shoulder) {
+                    return 'pear';
+                } else if (Math.abs(bust - hip) <= 5 && (bust - waist) >= 10) {
+                    return 'hourglass';
+                } else {
+                    return 'rectangle';
+                }
             }
         }
 
