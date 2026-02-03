@@ -8,15 +8,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Ramaraja&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap');
         
         :root {
-            --color-1: #B8DB80;
-            --color-2: #F7F6D3;
-            --color-3: #FFE4EF;
-            --color-4: #F39EB6;
-            --color-5: #FCF8F8;
+            --color-1: #B8DB80; /* Green */
+            --color-2: #F7F6D3; /* Cream */
+            --color-3: #FFE4EF; /* Light Pink */
+            --color-4: #F39EB6; /* Pink */
+            --color-5: #FCF8F8; /* White */
+            --color-ideal: #B8DB80; /* Green */
+            --color-overweight: #FFC857; /* Yellow/Orange */
+            --color-obese: #F39EB6; /* Pink */
+            --color-underweight: #A0D2DB; /* Light Blue */
         }
         
         * {
@@ -101,34 +107,29 @@
         }
         
         .body-shape-result {
-            background: var(--color-3);
+            background: linear-gradient(135deg, var(--color-3) 0%, rgba(255, 228, 239, 0.8) 100%);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
+            border: 2px solid rgba(243, 158, 182, 0.2);
         }
         
         .recommendation-card {
-            background: white;
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
             border-radius: 15px;
             padding: 20px;
             margin: 15px 0;
             border-left: 5px solid var(--color-4);
+            box-shadow: 0 4px 15px rgba(243, 158, 182, 0.1);
         }
         
         .navbar {
-            background: var(--color-5);
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.95) 100%);
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 2rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .body-shape-illustration {
-            max-width: 280px;
-            margin: 20px auto;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;        
+            border: 2px solid rgba(243, 158, 182, 0.1);
         }
         
         .hidden {
@@ -144,15 +145,322 @@
         .outfit-image {
            width: 100%;
             height: 100%;
-            /* object-fit: cover; */
             border-radius: 10px;
             margin: 10px 0;
             max-height: 178px;
             max-width: 170px;
+            border: 2px solid var(--color-3);
         }
         
         .recommendation-content {
             text-align: left;
+        }
+        
+        /* 3D Viewer Styles */
+        .viewer-container {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(247, 246, 211, 0.3) 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto;
+            border: 3px solid var(--color-4);
+        }
+        
+        #bodyShape3DViewer {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .viewer-controls {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .control-btn {
+            background: linear-gradient(135deg, var(--color-4) 0%, #e08ba4 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: linear-gradient(135deg, #e08ba4 0%, var(--color-4) 100%);
+            transform: scale(1.1);
+        }
+        
+        .shape-label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--color-4);
+            z-index: 100;
+            border: 2px solid rgba(243, 158, 182, 0.2);
+        }
+        
+        .measurements-info {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #666;
+            z-index: 100;
+            font-size: 0.9rem;
+            max-width: 150px;
+            border: 2px solid rgba(243, 158, 182, 0.2);
+        }
+        
+        .error-message {
+            background: linear-gradient(135deg, rgba(243, 158, 182, 0.1) 0%, rgba(255, 228, 239, 0.2) 100%);
+            border: 2px solid var(--color-4);
+            color: #d32f2f;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        /* Health Analysis Styles - UPDATED WITH WEBSITE COLOR PALETTE */
+        .health-analysis-section {
+            background: linear-gradient(135deg, var(--color-3) 0%, rgba(255, 228, 239, 0.8) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid rgba(243, 158, 182, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .health-analysis-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(184, 219, 128, 0.1) 0%, rgba(243, 158, 182, 0.05) 100%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .health-analysis-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -30%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(247, 246, 211, 0.1) 0%, rgba(255, 228, 239, 0.05) 100%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .health-analysis-section > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .health-category {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px 0;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-ideal {
+            background: linear-gradient(135deg, var(--color-ideal) 0%, #a0c570 100%);
+            color: white;
+        }
+        
+        .category-overweight {
+            background: linear-gradient(135deg, var(--color-overweight) 0%, #ffb347 100%);
+            color: white;
+        }
+        
+        .category-obese {
+            background: linear-gradient(135deg, var(--color-obese) 0%, #e08ba4 100%);
+            color: white;
+        }
+        
+        .category-underweight {
+            background: linear-gradient(135deg, var(--color-underweight) 0%, #89c2d9 100%);
+            color: white;
+        }
+        
+        .bmi-meter {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to right, 
+                var(--color-underweight) 0%, 
+                var(--color-ideal) 33%, 
+                var(--color-overweight) 66%, 
+                var(--color-obese) 100%);
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+        }
+        
+        .bmi-meter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                transparent 100%);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .bmi-indicator {
+            position: absolute;
+            top: -8px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
+            border: 3px solid var(--color-4);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 15px rgba(243, 158, 182, 0.3);
+            z-index: 10;
+            transition: left 0.5s ease;
+        }
+        
+        .bmi-indicator::before {
+            content: '▼';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--color-4);
+            font-size: 12px;
+        }
+        
+        .bmi-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .health-tips {
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(247, 246, 211, 0.3) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid var(--color-ideal);
+            border: 2px solid rgba(184, 219, 128, 0.3);
+            box-shadow: 0 4px 15px rgba(184, 219, 128, 0.1);
+        }
+        
+        .health-tips h6 {
+            color: var(--color-1);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .health-tips ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+        
+        .health-tips li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .health-tips li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .health-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            flex: 1;
+            min-width: 120px;
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(243, 158, 182, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(243, 158, 182, 0.15);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--color-4);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            color: var(--color-4);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(243, 158, 182, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 1.2rem;
         }
         
         /* Responsive Styles */
@@ -172,9 +480,6 @@
             .card-body {
                 padding: 20px !important;
             }
-            .body-shape-illustration {
-                max-width: 200px;
-            }
             .btn-primary, .btn-success {
                 padding: 10px 20px;
                 font-size: 0.9rem;
@@ -188,6 +493,20 @@
             .outfit-image {
                 max-width: 140px;
                 height: 120px;
+            }
+            .viewer-container {
+                height: 350px;
+            }
+            .health-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stat-item {
+                min-width: 100%;
+            }
+            .health-analysis-section::before,
+            .health-analysis-section::after {
+                display: none;
             }
         }
         
@@ -213,40 +532,26 @@
             .modal-dialog {
                 margin: 10px;
             }
-            .body-shape-illustration {
-                max-width: 180px;
-            }
             .outfit-image {
                 max-width: 120px;
                 height: 100px;
             }
-        }
-        
-        @media (max-width: 400px) {
-            .app-title {
-                font-size: 2rem;
+            .viewer-container {
+                height: 300px;
             }
-            .app-slogan {
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            .bmi-indicator {
+                width: 30px;
+                height: 30px;
+                top: -5px;
+            }
+            .health-category {
+                padding: 8px 16px;
                 font-size: 0.9rem;
-            }
-            .navbar > .container-fluid {
-                flex-direction: column;
-                align-items: flex-start !important;
-            }
-            .navbar .d-flex {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .navbar small {
-                font-size: 0.8rem;
-            }
-            .btn {
-                padding: 8px 15px;
-                font-size: 0.85rem;
-            }
-            .outfit-image {
-                max-width: 100px;
-                height: 90px;
             }
         }
     </style>
@@ -338,35 +643,44 @@
             <div class="card" id="inputSection">
                 <div class="card-body p-4">
                     <h4 class="mb-4">Data Fisik Anda</h4>
+                    <div id="inputError" class="error-message hidden"></div>
                     <form onsubmit="analyzeBody(event)">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Tinggi Badan (cm)</label>
-                                <input type="number" class="form-control" id="height" required>
+                                <input type="number" class="form-control" id="height" required min="100" max="250">
+                                <small class="text-muted">Contoh: 165</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Berat Badan (kg)</label>
-                                <input type="number" class="form-control" id="weight" required>
+                                <input type="number" class="form-control" id="weight" required min="30" max="200">
+                                <small class="text-muted">Contoh: 55</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Lingkar Dada (cm)</label>
-                                <input type="number" class="form-control" id="bust" required>
+                                <input type="number" class="form-control" id="bust" required min="50" max="150">
+                                <small class="text-muted">Contoh: 85</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Lingkar Pinggang (cm)</label>
-                                <input type="number" class="form-control" id="waist" required>
+                                <input type="number" class="form-control" id="waist" required min="40" max="150">
+                                <small class="text-muted">Contoh: 70</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Lingkar Pinggul (cm)</label>
-                                <input type="number" class="form-control" id="hip" required>
+                                <input type="number" class="form-control" id="hip" required min="50" max="150">
+                                <small class="text-muted">Contoh: 90</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Lebar Bahu (cm)</label>
-                                <input type="number" class="form-control" id="shoulder" required>
+                                <input type="number" class="form-control" id="shoulder" required min="30" max="70">
+                                <small class="text-muted">Contoh: 40</small>
                             </div>
                         </div>
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg">Analisis Bentuk Tubuh</button>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-chart-line me-2"></i>Analisis Bentuk Tubuh & Kesehatan
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -375,24 +689,91 @@
             <!-- Results Section -->
             <div class="card hidden" id="resultsSection">
                 <div class="card-body p-4">
-                    <h4 class="mb-4">Hasil Analisis</h4>
+                    <h4 class="mb-4 section-title">📊 Hasil Analisis Lengkap</h4>
                     
+                    <!-- Health Analysis Section -->
+                    <div class="health-analysis-section">
+                        <h5 class="section-title"><i class="fas fa-heartbeat"></i> Analisis Kesehatan</h5>
+                        
+                        <!-- BMI Meter -->
+                        <div class="bmi-meter">
+                            <div class="bmi-indicator" id="bmiIndicator"></div>
+                        </div>
+                        <div class="bmi-labels">
+                            <span>Kurus</span>
+                            <span>Ideal</span>
+                            <span>Gemuk</span>
+                            <span>Obesitas</span>
+                        </div>
+                        
+                        <!-- Health Category -->
+                        <div class="text-center my-4">
+                            <div id="healthCategory" class="health-category"></div>
+                            <h4 id="bmiValue" class="my-3" style="color: var(--color-4);"></h4>
+                            <p id="healthDescription" class="mb-0" style="color: #555; max-width: 600px; margin: 0 auto;"></p>
+                        </div>
+                        
+                        <!-- Health Stats -->
+                        <div class="health-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="statWeight"></div>
+                                <div class="stat-label">Berat Aktual</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statIdealWeight"></div>
+                                <div class="stat-label">Berat Ideal</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statDifference"></div>
+                                <div class="stat-label">Selisih</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statWhr"></div>
+                                <div class="stat-label">Rasio Pinggang-Pinggul</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Health Tips -->
+                        <div class="health-tips">
+                            <h6><i class="fas fa-lightbulb"></i> Tips Kesehatan:</h6>
+                            <ul id="healthTips" class="mb-0"></ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Body Shape Analysis -->
                     <div class="body-shape-result">
                         <div class="text-center">
-                            <h3 id="bodyShapeType"></h3>
-                           <div id="bodyShapeIllustration" class="body-shape-illustration"></div>
-                            <p id="bodyShapeDescription" class="mt-3"></p>
+                            <h5 class="section-title"><i class="fas fa-user"></i> Analisis Bentuk Tubuh</h5>
+                            <h3 id="bodyShapeType" style="color: var(--color-4);"></h3>
+                            <!-- 3D Viewer Container -->
+                            <div class="viewer-container">
+                                <div id="bodyShape3DViewer"></div>
+                                <div class="shape-label" id="shape3DLabel"></div>
+                                <div class="measurements-info" id="measurementsDisplay"></div>
+                                <div class="viewer-controls">
+                                    <button class="control-btn" onclick="rotateLeft()">◀</button>
+                                    <button class="control-btn" onclick="autoRotateToggle()" id="autoRotateBtn">⟳</button>
+                                    <button class="control-btn" onclick="rotateRight()">▶</button>
+                                    <button class="control-btn" onclick="resetView()">↺</button>
+                                </div>
+                            </div>
+                            <p id="bodyShapeDescription" class="mt-3" style="color: #555; max-width: 800px; margin: 0 auto;"></p>
                         </div>
                     </div>
 
+                    <!-- Fashion Recommendations -->
                     <div id="recommendationsSection">
-                        <h5 class="mt-4 mb-3">Rekomendasi Gaya Berpakaian</h5>
+                        <h5 class="mt-4 mb-3 section-title"><i class="fas fa-tshirt"></i> Rekomendasi Gaya Berpakaian</h5>
                         <div id="recommendations"></div>
                     </div>
 
                     <div class="text-center mt-4">
-                        <button class="btn btn-success" onclick="resetForm()">Analisis Lagi</button>
-                        <button class="btn btn-primary" id="upgradeToPremium" onclick="showUpgradeModal()">Upgrade ke Premium</button>
+                        <button class="btn btn-success" onclick="resetForm()">
+                            <i class="fas fa-redo me-2"></i>Analisis Lagi
+                        </button>
+                        <button class="btn btn-primary" id="upgradeToPremium" onclick="showUpgradeModal()">
+                            <i class="fas fa-crown me-2"></i>Upgrade ke Premium
+                        </button>
                     </div>
                 </div>
             </div>
@@ -405,7 +786,7 @@
             <div class="modal-content" style="border-radius: 20px; border: none;">
                 <div class="modal-body p-5 text-center">
                     <h3 class="mb-4">✨ Upgrade ke Premium</h3>
-                    <p class="mb-4">Dapatkan analisis mendalam dan lebih banyak rekomendasi gaya!</p>
+                    <p class="mb-4">Dapatkan analisis kesehatan lebih detail dan lebih banyak rekomendasi gaya!</p>
                     <div class="mb-4">
                         <h4 style="color: var(--color-4);">Rp 50.000</h4>
                         <small>Akses selamanya</small>
@@ -417,14 +798,438 @@
         </div>
     </div>
 
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Authentication Functions
+        // Three.js variables
+        let scene, camera, renderer, controls, bodyMesh;
+        let isAutoRotating = true;
+        let currentMeasurements = {};
+        let animationId = null;
+
+        // Initialize Three.js
+        function init3DViewer(measurements, shapeType) {
+            const container = document.getElementById('bodyShape3DViewer');
+            
+            // Clear previous renderer
+            if (renderer) {
+                container.innerHTML = '';
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            }
+            
+            // Create scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf8f9fa);
+            
+            // Create camera
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0.8, 4);
+            
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+            
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            
+            const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+            backLight.position.set(-5, 5, -5);
+            scene.add(backLight);
+            
+            // Create body shape based on measurements
+            createPersonalizedBodyShape(measurements, shapeType);
+            
+            // Add controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.rotateSpeed = 0.5;
+            controls.enableZoom = true;
+            controls.enablePan = false;
+            controls.minDistance = 2;
+            controls.maxDistance = 6;
+            
+            // Add floor
+            const floorGeometry = new THREE.CircleGeometry(3, 32);
+            const floorMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xe0e0e0, 
+                transparent: true, 
+                opacity: 0.3 
+            });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -1.5;
+            scene.add(floor);
+            
+            // Start animation
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function createPersonalizedBodyShape(measurements, shapeType) {
+            currentMeasurements = measurements;
+            
+            // Remove existing body mesh
+            if (bodyMesh) {
+                scene.remove(bodyMesh);
+            }
+            
+            // Normalize measurements for 3D visualization
+            const normalized = normalizeMeasurements(measurements);
+            
+            // Create geometry based on body type with personalized measurements
+            const geometry = createCustomBodyGeometry(normalized, shapeType);
+            const color = getShapeColor(shapeType);
+            
+            // Create material
+            const material = new THREE.MeshPhongMaterial({
+                color: color,
+                shininess: 50,
+                transparent: true,
+                opacity: 0.85,
+                side: THREE.DoubleSide,
+                flatShading: true
+            });
+            
+            // Create mesh
+            bodyMesh = new THREE.Mesh(geometry, material);
+            bodyMesh.rotation.y = Math.PI;
+            scene.add(bodyMesh);
+            
+            // Display measurements
+            displayMeasurementsInfo(measurements);
+        }
+
+        function normalizeMeasurements(measurements) {
+            // Normalize measurements to fit 3D space
+            // Convert from cm to 3D units (approx 100cm = 1.8 units)
+            const scale = 0.018;
+            
+            return {
+                height: measurements.height * scale,
+                bustRadius: (measurements.bust / Math.PI / 2) * scale,
+                waistRadius: (measurements.waist / Math.PI / 2) * scale,
+                hipRadius: (measurements.hip / Math.PI / 2) * scale,
+                shoulderWidth: measurements.shoulder * scale,
+                weight: measurements.weight
+            };
+        }
+
+        function createCustomBodyGeometry(normalized, shapeType) {
+            const segments = 24; // Reduced segments for better performance
+            const height = normalized.height * 0.7; // Scale down height
+            const points = [];
+            
+            // Create points for lathe geometry
+            // From top to bottom
+            for (let i = 0; i <= 8; i++) {
+                const t = i / 8;
+                let radius;
+                
+                if (t < 0.25) { // Neck to shoulders
+                    radius = normalized.shoulderWidth * 0.3 + 
+                            (normalized.shoulderWidth * 0.7 - normalized.shoulderWidth * 0.3) * (t / 0.25);
+                } else if (t < 0.4) { // Shoulders to bust
+                    radius = normalized.bustRadius * 0.9 + 
+                            (normalized.bustRadius - normalized.bustRadius * 0.9) * ((t - 0.25) / 0.15);
+                } else if (t < 0.6) { // Bust to waist
+                    radius = normalized.bustRadius - 
+                            (normalized.bustRadius - normalized.waistRadius) * ((t - 0.4) / 0.2);
+                } else if (t < 0.8) { // Waist to hips
+                    radius = normalized.waistRadius + 
+                            (normalized.hipRadius - normalized.waistRadius) * ((t - 0.6) / 0.2);
+                } else { // Hips to ankles
+                    radius = normalized.hipRadius - 
+                            normalized.hipRadius * 0.6 * ((t - 0.8) / 0.2);
+                }
+                
+                // Apply shape-specific adjustments
+                radius = applyShapeAdjustment(radius, t, shapeType);
+                
+                points.push(new THREE.Vector2(
+                    radius,
+                    height * (0.5 - t) // Center around 0
+                ));
+            }
+            
+            // Create lathe geometry
+            return new THREE.LatheGeometry(points, segments);
+        }
+
+        function applyShapeAdjustment(radius, t, shapeType) {
+            switch(shapeType) {
+                case 'hourglass':
+                    if (t > 0.35 && t < 0.65) {
+                        return radius * 0.7; // Smaller waist
+                    }
+                    break;
+                case 'pear':
+                    if (t > 0.6) {
+                        return radius * 1.2; // Larger hips
+                    } else {
+                        return radius * 0.9; // Smaller upper body
+                    }
+                case 'apple':
+                    if (t < 0.5) {
+                        return radius * 1.1; // Larger upper body
+                    } else {
+                        return radius * 0.9; // Smaller lower body
+                    }
+                case 'inverted-triangle':
+                    if (t < 0.4) {
+                        return radius * 1.2; // Larger shoulders
+                    } else {
+                        return radius * 0.8; // Smaller lower body
+                    }
+                case 'rectangle':
+                    return radius * 0.95; // More uniform
+            }
+            return radius;
+        }
+
+        function getShapeColor(shapeType) {
+            const colors = {
+                'hourglass': 0xF39EB6, // Pink
+                'pear': 0xB8DB80,      // Green
+                'apple': 0xFFA500,     // Orange
+                'inverted-triangle': 0x6A5ACD, // Purple
+                'rectangle': 0x20B2AA  // Teal
+            };
+            return colors[shapeType] || 0x888888;
+        }
+
+        function displayMeasurementsInfo(measurements) {
+            const display = document.getElementById('measurementsDisplay');
+            display.innerHTML = `
+                <div><strong>Tinggi:</strong> ${measurements.height} cm</div>
+                <div><strong>Dada:</strong> ${measurements.bust} cm</div>
+                <div><strong>Pinggang:</strong> ${measurements.waist} cm</div>
+                <div><strong>Pinggul:</strong> ${measurements.hip} cm</div>
+            `;
+        }
+
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+            
+            if (isAutoRotating && bodyMesh) {
+                bodyMesh.rotation.y += 0.005;
+            }
+            
+            if (controls) {
+                controls.update();
+            }
+            
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('bodyShape3DViewer');
+            if (!container || !camera || !renderer) return;
+            
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        function rotateLeft() {
+            if (bodyMesh) {
+                bodyMesh.rotation.y += 0.2;
+            }
+        }
+
+        function rotateRight() {
+            if (bodyMesh) {
+                bodyMesh.rotation.y -= 0.2;
+            }
+        }
+
+        function autoRotateToggle() {
+            isAutoRotating = !isAutoRotating;
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            if (autoRotateBtn) {
+                autoRotateBtn.style.background = isAutoRotating ? 
+                    'linear-gradient(135deg, var(--color-4) 0%, #e08ba4 100%)' : 
+                    'linear-gradient(135deg, #6c757d 0%, #495057 100%)';
+                autoRotateBtn.innerHTML = isAutoRotating ? '⟳' : '⏸';
+            }
+        }
+
+        function resetView() {
+            if (controls && camera) {
+                controls.reset();
+                camera.position.set(0, 0.8, 4);
+            }
+            if (bodyMesh) {
+                bodyMesh.rotation.y = Math.PI;
+            }
+        }
+
+        // ==================== HEALTH ANALYSIS FUNCTIONS ====================
+        
+        function calculateHealthAnalysis(measurements) {
+            const height = measurements.height;
+            const weight = measurements.weight;
+            const waist = measurements.waist;
+            const hip = measurements.hip;
+            
+            // 1. Calculate BMI (Body Mass Index)
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            
+            // 2. Calculate Ideal Weight using provided formula
+            const baseWeight = height - 100;
+            const idealWeight = baseWeight - (0.15 * baseWeight);
+            
+            // 3. Calculate Weight Difference
+            const weightDifference = weight - idealWeight;
+            
+            // 4. Calculate Waist-to-Hip Ratio (WHR)
+            const whr = waist / hip;
+            
+            // 5. Determine Health Category based on BMI
+            let healthCategory, healthDescription, categoryClass, bmiPosition;
+            
+            if (bmi < 18.5) {
+                healthCategory = "KURUS (Underweight)";
+                healthDescription = "Berat badan Anda kurang dari ideal. Disarankan untuk meningkatkan asupan nutrisi.";
+                categoryClass = "category-underweight";
+                bmiPosition = (bmi / 18.5) * 25; // 0-25% on meter
+            } else if (bmi >= 18.5 && bmi < 23) {
+                healthCategory = "IDEAL (Normal)";
+                healthDescription = "Berat badan Anda dalam kategori ideal. Pertahankan pola hidup sehat!";
+                categoryClass = "category-ideal";
+                bmiPosition = 25 + ((bmi - 18.5) / (23 - 18.5)) * 25; // 25-50% on meter
+            } else if (bmi >= 23 && bmi < 27.5) {
+                healthCategory = "GEMUK (Overweight)";
+                healthDescription = "Berat badan Anda berlebih. Disarankan untuk meningkatkan aktivitas fisik.";
+                categoryClass = "category-overweight";
+                bmiPosition = 50 + ((bmi - 23) / (27.5 - 23)) * 25; // 50-75% on meter
+            } else {
+                healthCategory = "OBESITAS (Obese)";
+                healthDescription = "Berat badan Anda dalam kategori obesitas. Konsultasikan dengan ahli gizi.";
+                categoryClass = "category-obese";
+                bmiPosition = 75 + ((bmi - 27.5) / 10) * 25; // 75-100% on meter (assuming max BMI ~37.5)
+            }
+            
+            // Limit bmiPosition to 0-100
+            bmiPosition = Math.max(0, Math.min(100, bmiPosition));
+            
+            // 6. Generate Health Tips based on category
+            const healthTips = generateHealthTips(healthCategory, weightDifference, whr);
+            
+            return {
+                bmi: bmi.toFixed(1),
+                idealWeight: idealWeight.toFixed(1),
+                weightDifference: weightDifference.toFixed(1),
+                whr: whr.toFixed(2),
+                healthCategory,
+                healthDescription,
+                categoryClass,
+                bmiPosition,
+                healthTips
+            };
+        }
+        
+        function generateHealthTips(category, weightDifference, whr) {
+            const tips = [];
+            
+            if (category.includes("KURUS")) {
+                tips.push("Tingkatkan asupan protein seperti daging, ikan, telur, dan kacang-kacangan");
+                tips.push("Makan lebih sering dalam porsi kecil (5-6 kali sehari)");
+                tips.push("Tambahkan kalori sehat dari alpukat, kacang, dan minyak zaitun");
+                tips.push("Lakukan latihan kekuatan untuk membangun massa otot");
+            } else if (category.includes("IDEAL")) {
+                tips.push("Pertahankan pola makan seimbang dengan gizi lengkap");
+                tips.push("Lakukan olahraga teratur 3-5 kali seminggu");
+                tips.push("Minum air putih minimal 8 gelas sehari");
+                tips.push("Istirahat cukup 7-8 jam per hari");
+                if (whr > 0.85) {
+                    tips.push("Perhatikan rasio pinggang-pinggul, fokuskan pada latihan kardio");
+                }
+            } else if (category.includes("GEMUK")) {
+                tips.push("Kurangi asupan gula dan makanan berlemak");
+                tips.push("Tingkatkan konsumsi sayuran dan buah-buahan");
+                tips.push("Lakukan kardio 30 menit sehari, 5 kali seminggu");
+                tips.push("Kurangi porsi makan malam dan hindari makan larut malam");
+                if (whr > 0.85) {
+                    tips.push("Prioritaskan latihan untuk mengurangi lemak perut");
+                }
+            } else if (category.includes("OBESITAS")) {
+                tips.push("Konsultasikan dengan dokter atau ahli gizi untuk program penurunan berat badan");
+                tips.push("Mulai dengan olahraga ringan seperti jalan kaki 30 menit sehari");
+                tips.push("Kurangi drastis makanan cepat saji dan minuman manis");
+                tips.push("Catat semua yang Anda makan untuk meningkatkan kesadaran");
+                tips.push("Cari dukungan dari keluarga atau komunitas untuk motivasi");
+            }
+            
+            // Additional tips based on weight difference
+            const absDiff = Math.abs(weightDifference);
+            if (absDiff > 10) {
+                tips.push("Target penurunan/penambahan berat badan yang sehat adalah 0.5-1 kg per minggu");
+            }
+            
+            return tips;
+        }
+        
+        function displayHealthAnalysis(analysis) {
+            // Display BMI value
+            document.getElementById('bmiValue').textContent = `BMI: ${analysis.bmi}`;
+            
+            // Display health category
+            const categoryElement = document.getElementById('healthCategory');
+            categoryElement.textContent = analysis.healthCategory;
+            categoryElement.className = `health-category ${analysis.categoryClass}`;
+            
+            // Display health description
+            document.getElementById('healthDescription').textContent = analysis.healthDescription;
+            
+            // Update BMI indicator position
+            const indicator = document.getElementById('bmiIndicator');
+            indicator.style.left = `${analysis.bmiPosition}%`;
+            
+            // Update stats
+            document.getElementById('statWeight').textContent = `${currentMeasurements.weight} kg`;
+            document.getElementById('statIdealWeight').textContent = `${analysis.idealWeight} kg`;
+            
+            const diffElement = document.getElementById('statDifference');
+            const diff = parseFloat(analysis.weightDifference);
+            diffElement.textContent = `${diff >= 0 ? '+' : ''}${analysis.weightDifference} kg`;
+            diffElement.style.color = diff > 0 ? 'var(--color-obese)' : diff < 0 ? 'var(--color-underweight)' : 'var(--color-ideal)';
+            
+            document.getElementById('statWhr').textContent = analysis.whr;
+            
+            // Display health tips
+            const tipsList = document.getElementById('healthTips');
+            tipsList.innerHTML = analysis.healthTips.map(tip => `<li>${tip}</li>`).join('');
+        }
+
+        // ==================== AUTHENTICATION FUNCTIONS ====================
+        
         function initApp() {
-            const session = localStorage.getItem('lookSyncSession');
+            const session = localStorage.getItem('lookSyncSession') || sessionStorage.getItem('lookSyncSession');
             if (session) {
-                const user = JSON.parse(session);
-                showMainApp(user);
+                try {
+                    const user = JSON.parse(session);
+                    showMainApp(user);
+                } catch (e) {
+                    console.error('Error parsing session:', e);
+                    document.getElementById('authPage').classList.remove('hidden');
+                }
             } else {
                 document.getElementById('authPage').classList.remove('hidden');
             }
@@ -437,7 +1242,7 @@
                 hash = ((hash << 5) - hash) + char;
                 hash = hash & hash;
             }
-            return hash.toString(36);
+            return Math.abs(hash).toString(36);
         }
 
         function handleRegister(e) {
@@ -526,57 +1331,55 @@
             document.getElementById('upgradeToPremium').style.display = user.isPremium ? 'none' : 'inline-block';
         }
 
-        // Body Shape Analysis - UPDATED VERSION
+        // ==================== BODY SHAPE ANALYSIS ====================
+        
         function determineBodyShape(measurements) {
             const { bust, waist, hip, shoulder } = measurements;
             
-            // Hitung perbedaan untuk menentukan bentuk tubuh
+            // Validate measurements
+            if (shoulder <= 0 || bust <= 0 || waist <= 0 || hip <= 0) {
+                throw new Error('Semua pengukuran harus bernilai positif');
+            }
+            
+            // Hitung perbedaan
             const shoulderHipDiff = shoulder - hip;
             const bustHipDiff = bust - hip;
             const hipWaistDiff = hip - waist;
             const bustWaistDiff = bust - waist;
             const shoulderWaistDiff = shoulder - waist;
             
-            // Aturan berdasarkan data yang diberikan:
-            
-            // 1. Hourglass: Bahu dan pinggul seimbang, dengan pinggang yang jelas lebih kecil
-            // Kondisi: Bahu dan pinggul hampir sama (±3 cm) DAN pinggang jauh lebih kecil (minimal 15 cm lebih kecil)
+            // Hourglass
             if (Math.abs(shoulder - hip) <= 3 && 
                 Math.abs(bust - hip) <= 3 && 
-                (shoulder - waist) >= 15 && 
-                (hip - waist) >= 15) {
+                shoulderWaistDiff >= 15 && 
+                hipWaistDiff >= 15) {
                 return 'hourglass';
             }
             
-            // 2. Pear: Pinggul lebih lebar dari bahu, berat badan cenderung menumpuk di bagian bawah tubuh
-            // Kondisi: Pinggul > bahu (minimal 5 cm) DAN pinggul > dada
+            // Pear
             else if (hip > shoulder + 5 && hip > bust + 5) {
                 return 'pear';
             }
             
-            // 3. Apple: Tubuh bagian atas lebih lebar, pinggang kurang tegas, pinggul sempit
-            // Kondisi: Bahu > pinggul (minimal 5 cm) DAN dada > pinggul
+            // Apple
             else if (shoulder > hip + 5 && bust > hip + 5) {
                 return 'apple';
             }
             
-            // 4. Inverted Triangle: Bahu lebih lebar dari pinggul, dada dan perut lebih berisi, pinggul kecil
-            // Kondisi: Bahu > pinggul (minimal 8 cm) DAN bahu > dada
+            // Inverted Triangle
             else if (shoulder > hip + 8 && shoulder > bust) {
                 return 'inverted-triangle';
             }
             
-            // 5. Rectangle: Bahu, pinggang, dan pinggul hampir sama lebarnya, siluet cenderung lurus
-            // Kondisi: Selisih maksimal 5 cm antara bahu, pinggang, dan pinggul
+            // Rectangle
             else if (Math.abs(shoulder - waist) <= 5 && 
                      Math.abs(hip - waist) <= 5 && 
                      Math.abs(shoulder - hip) <= 5) {
                 return 'rectangle';
             }
             
-            // Default fallback berdasarkan rasio yang paling dominan
+            // Default
             else {
-                // Cek rasio terbesar untuk menentukan bentuk
                 const ratios = {
                     'shoulderToHip': shoulder / hip,
                     'bustToHip': bust / hip,
@@ -587,7 +1390,7 @@
                     return 'apple';
                 } else if (ratios.hipToWaist > 1.15 && hip > shoulder) {
                     return 'pear';
-                } else if (Math.abs(bust - hip) <= 5 && (bust - waist) >= 10) {
+                } else if (Math.abs(bust - hip) <= 5 && bustWaistDiff >= 10) {
                     return 'hourglass';
                 } else {
                     return 'rectangle';
@@ -599,33 +1402,30 @@
             const info = {
                 'hourglass': {
                     name: 'Bentuk Jam Pasir (Hourglass)',
-                    description: 'Anda memiliki bentuk tubuh hourglass, yaitu tipe tubuh dengan proporsi bahu dan pinggul yang seimbang serta pinggang yang terlihat jelas. Ciri utama bentuk tubuh ini ada pada area pinggang yang lebih ramping dibanding bagian atas dan bawah, sehingga ikon fashion yang menonjolkan lekuk pinggang',
-                    svg: '<img src="img/hourglass remove.png" alt="Hourglass Body Shape" style="width:100%; max-width:280px;">'       
+                    description: 'Anda memiliki bentuk tubuh hourglass, yaitu tipe tubuh dengan proporsi bahu dan pinggul yang seimbang serta pinggang yang terlihat jelas. Ciri utama bentuk tubuh ini ada pada area pinggang yang lebih ramping dibanding bagian atas dan bawah, sehingga ikon fashion yang menonjolkan lekuk pinggang'
                 },
                 'pear': {
                     name: 'Bentuk Pir (Pear)',
-                    description: 'Anda memiliki bentuk tubuh pear, yaitu tipe tubuh dengan pinggul dan paha yang lebih lebar dibanding bahu dan dada. Ciri utama bentuk tubuh ini ada pada bagian bawah tubuh yang lebih dominan, sehingga ikon fashion yang menonjolkan bagian atas. Kombinasi ini membantu menyeimbangkan proporsi tubuh dan menciptakan tampilan yang lebih harmonis',
-                    svg: '<img src="img/pear remove.png" alt="Pear Body Shape" style="width:100%; max-width:280px;">'         
+                    description: 'Anda memiliki bentuk tubuh pear, yaitu tipe tubuh dengan pinggul dan paha yang lebih lebar dibanding bahu dan dada. Ciri utama bentuk tubuh ini ada pada bagian bawah tubuh yang lebih dominan, sehingga ikon fashion yang menonjolkan bagian atas. Kombinasi ini membantu menyeimbangkan proporsi tubuh dan menciptakan tampilan yang lebih harmonis'
                 },
                 'apple': {
                     name: 'Bentuk Apel (Apple)',
-                    description: 'Anda memiliki bentuk tubuh apple, yaitu tipe tubuh dengan bagian atas (dada, bahu, dan perut) terlihat lebih dominan dibanding bagian bawah. Ciri utama bentuk tubuh ini ada pada area tengah tubuh yang cenderung lebih penuh, sehingga ikon fashion yang mengalihkan fokus ke kaki atau menonjolkan bagian bahu. Pemilihan gaya yang tepat dapat membantu menciptakan keseimbangan visual dan membuat siluet tubuh terlihat lebih proporsional',
-                    svg: '<img src="img/apple remove.png" alt="Apple Body Shape" style="width:100%; max-width:280px;">'
+                    description: 'Anda memiliki bentuk tubuh apple, yaitu tipe tubuh dengan bagian atas (dada, bahu, dan perut) terlihat lebih dominan dibanding bagian bawah. Ciri utama bentuk tubuh ini ada pada area tengah tubuh yang cenderung lebih penuh, sehingga ikon fashion yang mengalihkan fokus ke kaki atau menonjolkan bagian bahu. Pemilihan gaya yang tepat dapat membantu menciptakan keseimbangan visual dan membuat siluet tubuh terlihat lebih proporsional'
                 },
                 'inverted-triangle': {
                     name: 'Segitiga Terbalik (Inverted Triangle)',
-                    description: 'Anda memiliki bentuk tubuh inverted triangle, yaitu tipe tubuh dengan bahu yang lebih lebar dibanding pinggul. Ciri utama bentuk tubuh ini ada pada bagian atas tubuh yang lebih dominan, sehingga ikon fashion yang menonjolkan bagian bawah. Gaya ini membantu menyeimbangkan siluet dan membuat tampilan terlihat lebih proporsional',
-                    svg: '<img src="img/inverted triangle remove.png" alt="Inverted Triangle Body Shape" style="width:100%; max-width:280px;">'
+                    description: 'Anda memiliki bentuk tubuh inverted triangle, yaitu tipe tubuh dengan bahu yang lebih lebar dibanding pinggul. Ciri utama bentuk tubuh ini ada pada bagian atas tubuh yang lebih dominan, sehingga ikon fashion yang menonjolkan bagian bawah. Gaya ini membantu menyeimbangkan siluet dan membuat tampilan terlihat lebih proporsional'
                 },
                 'rectangle': {
                     name: 'Bentuk Persegi (Rectangle)',
-                    description: 'Anda memiliki bentuk tubuh persegi (rectangle), yaitu tipe tubuh dengan bahu, pinggang, dan pinggul yang relatif sejajar tanpa lekuk yang terlalu jelas. Ciri utama bentuk tubuh ini ada pada siluet tubuh yang cenderung lurus, sehingga ikon fashion yang menciptakan ilusi lekuk. Gaya ini membantu membentuk siluet yang lebih dinamis dan feminin',
-                    svg: '<img src="img/regtangle remove.png" alt="Rectangle Body Shape" style="width:100%; max-width:280px;">'
+                    description: 'Anda memiliki bentuk tubuh persegi (rectangle), yaitu tipe tubuh dengan bahu, pinggang, dan pinggul yang relatif sejajar tanpa lekuk yang terlalu jelas. Ciri utama bentuk tubuh ini ada pada siluet tubuh yang cenderung lurus, sehingga ikon fashion yang menciptakan ilusi lekuk. Gaya ini membantu membentuk siluet yang lebih dinamis dan feminin'
                 }
             };
-            return info[shape];
+            return info[shape] || info['rectangle'];
         }
 
+        // ==================== REKOMENDASI OUTFIT ASLI ====================
+        
         function getRecommendations(shape, isPremium) {
             const recommendations = {
                 'hourglass': [
@@ -799,67 +1599,130 @@
             return recommendations[shape].slice(0, limit);
         }
 
+        function validateMeasurements(measurements) {
+            const errors = [];
+            
+            if (measurements.height < 100 || measurements.height > 250) {
+                errors.push('Tinggi badan harus antara 100-250 cm');
+            }
+            if (measurements.weight < 30 || measurements.weight > 200) {
+                errors.push('Berat badan harus antara 30-200 kg');
+            }
+            if (measurements.bust < 50 || measurements.bust > 150) {
+                errors.push('Lingkar dada harus antara 50-150 cm');
+            }
+            if (measurements.waist < 40 || measurements.waist > 150) {
+                errors.push('Lingkar pinggang harus antara 40-150 cm');
+            }
+            if (measurements.hip < 50 || measurements.hip > 150) {
+                errors.push('Lingkar pinggul harus antara 50-150 cm');
+            }
+            if (measurements.shoulder < 30 || measurements.shoulder > 70) {
+                errors.push('Lebar bahu harus antara 30-70 cm');
+            }
+            
+            // Consistency checks
+            if (measurements.waist > measurements.bust) {
+                errors.push('Pinggang tidak boleh lebih besar dari dada');
+            }
+            if (measurements.waist > measurements.hip) {
+                errors.push('Pinggang tidak boleh lebih besar dari pinggul');
+            }
+            
+            return errors;
+        }
+
         function analyzeBody(e) {
             e.preventDefault();
             
-            const measurements = {
-                height: parseInt(document.getElementById('height').value),
-                weight: parseInt(document.getElementById('weight').value),
-                bust: parseInt(document.getElementById('bust').value),
-                waist: parseInt(document.getElementById('waist').value),
-                hip: parseInt(document.getElementById('hip').value),
-                shoulder: parseInt(document.getElementById('shoulder').value)
-            };
-
-            const session = localStorage.getItem('lookSyncSession') || sessionStorage.getItem('lookSyncSession');
-            const user = JSON.parse(session);
-
-            const bodyShape = determineBodyShape(measurements);
-            const shapeInfo = getBodyShapeInfo(bodyShape);
-            const recommendations = getRecommendations(bodyShape, user.isPremium);
-
-            // Display results
-            document.getElementById('bodyShapeType').textContent = shapeInfo.name;
-            document.getElementById('bodyShapeIllustration').innerHTML = shapeInfo.svg;
-            document.getElementById('bodyShapeDescription').textContent = shapeInfo.description;
-
-            // Display recommendations
-            const recommendationsHTML = recommendations.map((rec, index) => {
-                // Hilangkan bagian "undefined" dengan mengecek apakah properti ada
-                const topText = rec.top ? `<p><strong>Atasan:</strong> ${rec.top}</p>` : '';
-                const bottomText = rec.bottom ? `<p><strong>Bawahan:</strong> ${rec.bottom}</p>` : '';
+            try {
+                // Get measurements
+                const measurements = {
+                    height: parseInt(document.getElementById('height').value),
+                    weight: parseInt(document.getElementById('weight').value),
+                    bust: parseInt(document.getElementById('bust').value),
+                    waist: parseInt(document.getElementById('waist').value),
+                    hip: parseInt(document.getElementById('hip').value),
+                    shoulder: parseInt(document.getElementById('shoulder').value)
+                };
                 
-                return `
-                <div class="recommendation-card">
-                    <h6 class="mb-3" style="color: var(--color-4);">Outfit ${index + 1}</h6>
-                    <div class="row align-items-center">
-                        <div class="col-md-4 col-sm-6 outfit-image-container">
-                            <img src="${rec.image}" alt="${rec.top || rec.bottom}" class="outfit-image">
-                        </div>
-                        <div class="col-md-8 col-sm-6 recommendation-content">
-                            ${topText}
-                            ${bottomText}
-                            <p><strong>Tips:</strong> ${rec.description}</p>
+                // Validate measurements
+                const errors = validateMeasurements(measurements);
+                if (errors.length > 0) {
+                    const errorDiv = document.getElementById('inputError');
+                    errorDiv.innerHTML = errors.join('<br>');
+                    errorDiv.classList.remove('hidden');
+                    return;
+                }
+                
+                // Clear any previous errors
+                document.getElementById('inputError').classList.add('hidden');
+                
+                const session = localStorage.getItem('lookSyncSession') || sessionStorage.getItem('lookSyncSession');
+                const user = JSON.parse(session);
+
+                // 1. Perform Health Analysis
+                const healthAnalysis = calculateHealthAnalysis(measurements);
+                displayHealthAnalysis(healthAnalysis);
+                
+                // 2. Determine Body Shape
+                const bodyShape = determineBodyShape(measurements);
+                const shapeInfo = getBodyShapeInfo(bodyShape);
+                const recommendations = getRecommendations(bodyShape, user.isPremium);
+
+                // Display body shape results
+                document.getElementById('bodyShapeType').textContent = shapeInfo.name;
+                document.getElementById('shape3DLabel').textContent = shapeInfo.name;
+                document.getElementById('bodyShapeDescription').textContent = shapeInfo.description;
+
+                // Initialize personalized 3D viewer
+                init3DViewer(measurements, bodyShape);
+
+                // Display fashion recommendations
+                const recommendationsHTML = recommendations.map((rec, index) => {
+                    // Hilangkan bagian "undefined" dengan mengecek apakah properti ada
+                    const topText = rec.top ? `<p><strong>Atasan:</strong> ${rec.top}</p>` : '';
+                    const bottomText = rec.bottom ? `<p><strong>Bawahan:</strong> ${rec.bottom}</p>` : '';
+                    
+                    return `
+                    <div class="recommendation-card">
+                        <h6 class="mb-3" style="color: var(--color-4);">Outfit ${index + 1}</h6>
+                        <div class="row align-items-center">
+                            <div class="col-md-4 col-sm-6 outfit-image-container">
+                                <img src="${rec.image}" alt="${rec.top || rec.bottom}" class="outfit-image">
+                            </div>
+                            <div class="col-md-8 col-sm-6 recommendation-content">
+                                ${topText}
+                                ${bottomText}
+                                <p><strong>Tips:</strong> ${rec.description}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
 
-            document.getElementById('recommendations').innerHTML = recommendationsHTML;
+                document.getElementById('recommendations').innerHTML = recommendationsHTML;
 
-            // Show results, hide input
-            document.getElementById('inputSection').classList.add('hidden');
-            document.getElementById('resultsSection').classList.remove('hidden');
-            
-            // Scroll to results
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+                // Show results, hide input
+                document.getElementById('inputSection').classList.add('hidden');
+                document.getElementById('resultsSection').classList.remove('hidden');
+                
+                // Scroll to results
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error('Error in analyzeBody:', error);
+                const errorDiv = document.getElementById('inputError');
+                errorDiv.textContent = 'Terjadi kesalahan: ' + error.message;
+                errorDiv.classList.remove('hidden');
+            }
         }
 
         function resetForm() {
             document.getElementById('resultsSection').classList.add('hidden');
             document.getElementById('inputSection').classList.remove('hidden');
             document.querySelector('form').reset();
+            document.getElementById('inputError').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -897,6 +1760,13 @@
 
         // Initialize app on page load
         window.addEventListener('DOMContentLoaded', initApp);
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        });
     </script>
 </body>
 </html>
