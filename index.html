@@ -242,7 +242,7 @@
             text-align: center;
         }
         
-        /* Health Analysis Styles - UPDATED WITH WEBSITE COLOR PALETTE */
+        /* Health Analysis Styles */
         .health-analysis-section {
             background: linear-gradient(135deg, var(--color-3) 0%, rgba(255, 228, 239, 0.8) 100%);
             border-radius: 15px;
@@ -463,6 +463,264 @@
             font-size: 1.2rem;
         }
         
+        /* COLOR PALETTE PAGE STYLES */
+        .color-palette-page {
+            min-height: 100vh;
+            transition: background 0.5s ease;
+        }
+        
+        .color-palette-card {
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.95) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid rgba(243, 158, 182, 0.2);
+        }
+        
+        .color-wheel-container {
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .color-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        #colorWheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        #colorWheelCanvas:hover {
+            transform: scale(1.02);
+        }
+        
+        .color-wheel-pointer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+            border: 3px solid rgba(255,255,255,0.8);
+        }
+        
+        .palette-preview {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .color-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .color-box:hover {
+            transform: scale(1.1);
+        }
+        
+        .palette-info {
+            background: linear-gradient(135deg, var(--color-3) 0%, rgba(255, 228, 239, 0.3) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid var(--color-4);
+        }
+        
+        .palette-type-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 5px;
+            color: white;
+        }
+        
+        .palette-type-mono {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .palette-type-complement {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .palette-type-analog {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .color-scheme-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .scheme-section {
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(243, 158, 182, 0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        
+        .scheme-colors {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .large-color-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        
+        .large-color-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+        }
+        
+        .color-hex {
+            background: rgba(0,0,0,0.3);
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-top: 5px;
+            font-size: 0.75rem;
+        }
+        
+        .fashion-tips {
+            background: linear-gradient(135deg, var(--color-2) 0%, rgba(247, 246, 211, 0.3) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid rgba(184, 219, 128, 0.3);
+        }
+        
+        .fashion-tips ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+        
+        .fashion-tips li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .color-application-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .application-card {
+            background: linear-gradient(135deg, var(--color-5) 0%, rgba(252, 248, 248, 0.9) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(243, 158, 182, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .application-card h6 {
+            color: var(--color-4);
+            margin-bottom: 15px;
+        }
+        
+        .app-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--color-3);
+        }
+        
+        .palette-page-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        /* Skin Tone Styles */
+        .skin-tone-color {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            margin: 2px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .skin-tone-card {
+            height: 100%;
+        }
+        
+        #colorPicker {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        #colorPicker:hover {
+            transform: scale(1.05);
+        }
+        
         /* Responsive Styles */
         @media (max-width: 768px) {
             .app-title {
@@ -507,6 +765,20 @@
             .health-analysis-section::before,
             .health-analysis-section::after {
                 display: none;
+            }
+            .color-wheel-container {
+                width: 250px;
+                height: 250px;
+            }
+            .color-scheme-container {
+                gap: 20px;
+            }
+            .scheme-section {
+                padding: 20px;
+            }
+            .large-color-box {
+                width: 70px;
+                height: 70px;
             }
         }
         
@@ -553,9 +825,25 @@
                 padding: 8px 16px;
                 font-size: 0.9rem;
             }
+            .color-wheel-container {
+                width: 200px;
+                height: 200px;
+            }
+            .color-box {
+                width: 50px;
+                height: 50px;
+                font-size: 0.7rem;
+            }
+            .large-color-box {
+                width: 60px;
+                height: 60px;
+                font-size: 0.8rem;
+            }
+            .color-application-examples {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-
 </head>
 <body>
     <!-- Auth Pages -->
@@ -632,7 +920,12 @@
                     </div>
                     <div>
                         <span class="me-3" id="membershipBadge"></span>
-                        <button class="btn btn-sm btn-outline-danger" onclick="handleLogout()">Keluar</button>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="showColorPalettePage()">
+                                <i class="fas fa-palette me-1"></i>Color Palette
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="handleLogout()">Keluar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -771,10 +1064,283 @@
                         <button class="btn btn-success" onclick="resetForm()">
                             <i class="fas fa-redo me-2"></i>Analisis Lagi
                         </button>
+                        <button class="btn btn-primary" onclick="showColorPalettePage()">
+                            <i class="fas fa-palette me-2"></i>Lihat Rekomendasi Warna
+                        </button>
                         <button class="btn btn-primary" id="upgradeToPremium" onclick="showUpgradeModal()">
                             <i class="fas fa-crown me-2"></i>Upgrade ke Premium
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Palette Page -->
+    <div id="colorPalettePage" class="hidden color-palette-page">
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <div>
+                        <h3 class="mb-0" style="font-family: 'Monsieur La Doulaise', cursive; color: var(--color-4);">Look Sync</h3>
+                        <small id="paletteGreeting"></small>
+                    </div>
+                    <div>
+                        <span class="me-3" id="paletteMembershipBadge"></span>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="goBackToMain()">
+                                <i class="fas fa-arrow-left me-1"></i>Kembali
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="handleLogout()">Keluar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="color-palette-card">
+                <h4 class="section-title text-center"><i class="fas fa-palette me-2"></i>Rekomendasi Color Palette</h4>
+                <p class="text-center mb-4" style="color: #666;">Temukan kombinasi warna yang sempurna berdasarkan teori warna untuk penampilan fashion Anda</p>
+                
+                <!-- Color Wheel Selector -->
+                <div class="text-center">
+                    <h5 class="mb-3" style="color: var(--color-4);">Pilih Warna Favorit Anda:</h5>
+                    <div class="color-wheel-container">
+                        <div class="color-wheel">
+                            <canvas id="colorWheelCanvas" width="300" height="300"></canvas>
+                        </div>
+                        <div class="color-wheel-pointer" id="colorPointer">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                    <div class="palette-preview" id="selectedColorPreview"></div>
+                    <div class="mt-3">
+                        <input type="color" id="colorPicker" value="#F39EB6">
+                        <span class="ms-2" style="color: #666;">atau pilih warna dengan color picker</span>
+                    </div>
+                </div>
+
+                <!-- Color Schemes -->
+                <div class="color-scheme-container">
+                    <!-- Monochromatic Scheme -->
+                    <div class="scheme-section">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 style="color: var(--color-4);">
+                                <i class="fas fa-layer-group me-2"></i>Monochromatic Palette (9 Warna)
+                            </h5>
+                            <span class="palette-type-badge palette-type-mono">Tonal Harmony</span>
+                        </div>
+                        <p style="color: #666; margin-bottom: 20px;">Warna dengan variasi nada dari gelap ke terang, menciptakan kesan elegan dan minimalis</p>
+                        <div class="scheme-colors" id="monochromaticColors"></div>
+                        <div class="fashion-tips">
+                            <h6><i class="fas fa-lightbulb me-2"></i>Tips Fashion Monochromatic:</h6>
+                            <ul>
+                                <li>Kombinasikan tekstur berbeda (satin, wool, denim) untuk menambah dimensi</li>
+                                <li>Gunakan aksesori warna metalik (emas, perak) untuk variasi</li>
+                                <li>Buat gradasi warna dari atas ke bawah untuk ilusi tinggi</li>
+                                <li>Sempurna untuk tampilan kantor dan acara formal</li>
+                                <li>Kombinasikan dengan warna netral (hitam, putih, abu) sebagai dasar</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Complementary Scheme -->
+                    <div class="scheme-section">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 style="color: var(--color-4);">
+                                <i class="fas fa-exchange-alt me-2"></i>Complementary Palette (8 Warna)
+                            </h5>
+                            <span class="palette-type-badge palette-type-complement">High Contrast</span>
+                        </div>
+                        <p style="color: #666; margin-bottom: 20px;">Warna berseberangan di roda warna dengan variasi saturasi dan brightness</p>
+                        <div class="scheme-colors" id="complementaryColors"></div>
+                        <div class="fashion-tips">
+                            <h6><i class="fas fa-lightbulb me-2"></i>Tips Fashion Complementary:</h6>
+                            <ul>
+                                <li>Gunakan aturan 70-30 (70% warna utama, 30% warna kontras)</li>
+                                <li>Warna kontras cocok untuk aksesori statement (tas, sepatu, scarf)</li>
+                                <li>Untuk pemula, mulai dengan aksesori kecil berwarna kontras</li>
+                                <li>Kombinasi yang kuat untuk outfit evening dan special occasion</li>
+                                <li>Hindari penggunaan berimbang 50-50 agar tidak terlalu 'ramai'</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Analogous Scheme -->
+                    <div class="scheme-section">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 style="color: var(--color-4);">
+                                <i class="fas fa-sliders-h me-2"></i>Analogous Palette (7 Warna)
+                            </h5>
+                            <span class="palette-type-badge palette-type-analog">Harmonious Blend</span>
+                        </div>
+                        <p style="color: #666; margin-bottom: 20px;">Warna yang berdekatan ±45° di roda warna, menciptakan harmoni yang lembut</p>
+                        <div class="scheme-colors" id="analogousColors"></div>
+                        <div class="fashion-tips">
+                            <h6><i class="fas fa-lightbulb me-2"></i>Tips Fashion Analogous:</h6>
+                            <ul>
+                                <li>Pilih satu warna sebagai warna utama (60%)</li>
+                                <li>Warna kedua sebagai pendukung (30%)</li>
+                                <li>Warna ketiga sebagai aksen (10%)</li>
+                                <li>Sempurna untuk tampilan kasual dan sehari-hari</li>
+                                <li>Tambahkan warna netral untuk keseimbangan visual</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Triadic Scheme -->
+                    <div class="scheme-section">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 style="color: var(--color-4);">
+                                <i class="fas fa-star me-2"></i>Triadic Palette (9 Warna)
+                            </h5>
+                            <span class="palette-type-badge" style="background: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%); color: white;">Balanced Contrast</span>
+                        </div>
+                        <p style="color: #666; margin-bottom: 20px;">Tiga warna dengan jarak 120° di roda warna, menciptakan keseimbangan dan energi</p>
+                        <div class="scheme-colors" id="triadicColors"></div>
+                        <div class="fashion-tips">
+                            <h6><i class="fas fa-lightbulb me-2"></i>Tips Fashion Triadic:</h6>
+                            <ul>
+                                <li>Gunakan satu warna dominan, dua lainnya sebagai aksen</li>
+                                <li>Cocok untuk outfit creative dan artistic</li>
+                                <li>Kombinasikan dengan denim atau warna netral untuk grounding</li>
+                                <li>Sempurna untuk festival, pesta, atau acara kreatif</li>
+                                <li>Hindari ketiga warna dengan intensitas penuh bersamaan</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Skin Tone Analysis Section -->
+                    <div class="scheme-section">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 style="color: var(--color-4);">
+                                <i class="fas fa-user-circle me-2"></i>Analisis Tone Kulit & Warna
+                            </h5>
+                            <span class="palette-type-badge" style="background: linear-gradient(135deg, #A8E6CF 0%, #DCEDC1 100%); color: #333;">Skin Tone Guide</span>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <!-- Cool Tone -->
+                            <div class="col-md-4 mb-4">
+                                <div class="skin-tone-card" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border-radius: 15px; padding: 20px; height: 100%;">
+                                    <h6 style="color: #1976D2; margin-bottom: 15px;">
+                                        <i class="fas fa-snowflake me-2"></i>Cool Tone
+                                    </h6>
+                                    <p style="color: #555; font-size: 0.9rem;">
+                                        <strong>Ciri-ciri:</strong> Kulit dengan undertone biru/merah muda, urat nadi terlihat biru/ungu
+                                    </p>
+                                    <div class="mt-3">
+                                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;"><strong>Warna yang Cocok:</strong></p>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <span class="skin-tone-color" style="background-color: #1E3A8A; color: white;">Biru Navy</span>
+                                            <span class="skin-tone-color" style="background-color: #7C3AED; color: white;">Ungu</span>
+                                            <span class="skin-tone-color" style="background-color: #DC2626; color: white;">Merah Blue-based</span>
+                                            <span class="skin-tone-color" style="background-color: #0D9488; color: white;">Teal</span>
+                                            <span class="skin-tone-color" style="background-color: #4F46E5; color: white;">Indigo</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;"><strong>Warna yang Dihindari:</strong></p>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <span class="skin-tone-color" style="background-color: #FBBF24; color: #333;">Kuning Orange</span>
+                                            <span class="skin-tone-color" style="background-color: #F97316; color: white;">Orange</span>
+                                            <span class="skin-tone-color" style="background-color: #F59E0B; color: #333;">Kuning Gold</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Warm Tone -->
+                            <div class="col-md-4 mb-4">
+                                <div class="skin-tone-card" style="background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); border-radius: 15px; padding: 20px; height: 100%;">
+                                    <h6 style="color: #F57C00; margin-bottom: 15px;">
+                                        <i class="fas fa-sun me-2"></i>Warm Tone
+                                    </h6>
+                                    <p style="color: #555; font-size: 0.9rem;">
+                                        <strong>Ciri-ciri:</strong> Kulit dengan undertone kuning/emas, urat nadi terlihat hijau
+                                    </p>
+                                    <div class="mt-3">
+                                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;"><strong>Warna yang Cocok:</strong></p>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <span class="skin-tone-color" style="background-color: #B45309; color: white;">Coklat Earthy</span>
+                                            <span class="skin-tone-color" style="background-color: #D97706; color: white;">Orange</span>
+                                            <span class="skin-tone-color" style="background-color: #CA8A04; color: white;">Gold</span>
+                                            <span class="skin-tone-color" style="background-color: #65A30D; color: white;">Hijau Zaitun</span>
+                                            <span class="skin-tone-color" style="background-color: #DC2626; color: white;">Merah Orange-based</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;"><strong>Warna yang Dihindari:</strong></p>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <span class="skin-tone-color" style="background-color: #3B82F6; color: white;">Biru Cerah</span>
+                                            <span class="skin-tone-color" style="background-color: #8B5CF6; color: white;">Ungu Cerah</span>
+                                            <span class="skin-tone-color" style="background-color: #06B6D4; color: white;">Biru Tosca</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Neutral Tone -->
+                            <div class="col-md-4 mb-4">
+                                <div class="skin-tone-card" style="background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%); border-radius: 15px; padding: 20px; height: 100%;">
+                                    <h6 style="color: #616161; margin-bottom: 15px;">
+                                        <i class="fas fa-balance-scale me-2"></i>Neutral Tone
+                                    </h6>
+                                    <p style="color: #555; font-size: 0.9rem;">
+                                        <strong>Ciri-ciri:</strong> Campuran warm dan cool, urat nadi terlihat biru-hijau
+                                    </p>
+                                    <div class="mt-3">
+                                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;"><strong>Warna yang Cocok:</strong></p>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <span class="skin-tone-color" style="background-color: #6B7280; color: white;">Abu-abu</span>
+                                            <span class="skin-tone-color" style="background-color: #78350F; color: white;">Coklat Tua</span>
+                                            <span class="skin-tone-color" style="background-color: #374151; color: white;">Navy</span>
+                                            <span class="skin-tone-color" style="background-color: #047857; color: white;">Hijau Army</span>
+                                            <span class="skin-tone-color" style="background-color: #7C2D12; color: white;">Maroon</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;"><strong>Tips:</strong></p>
+                                        <ul style="color: #555; font-size: 0.85rem; padding-left: 20px;">
+                                            <li>Bisa memakai hampir semua warna</li>
+                                            <li>Hindari warna yang terlalu cerah atau neon</li>
+                                            <li>Warna muted dan earthy tones paling aman</li>
+                                            <li>Bisa bermain dengan tekstur dan pattern</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tips Tambahan -->
+                        <div class="fashion-tips mt-4">
+                            <h6><i class="fas fa-tips me-2"></i>Cara Menentukan Tone Kulit:</h6>
+                            <ul>
+                                <li><strong>Test Urat Nadi:</strong> Lihat warna urat di pergelangan tangan di bawah sinar matahari</li>
+                                <li><strong>Test Perhiasan:</strong> Perhiasan emas lebih cocok untuk warm tone, perak untuk cool tone</li>
+                                <li><strong>Test Kertas Putih:</strong> Pegang kertas putih di dekat wajah di bawah cahaya natural</li>
+                                <li><strong>Test Warna:</strong> Coba kain berwarna biru navy dan hijau army di dekat wajah</li>
+                                <li><strong>Consultation:</strong> Untuk hasil terbaik, konsultasi dengan personal stylist</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Application Examples -->
+                <div class="mt-4">
+                    <h5 class="section-title"><i class="fas fa-tshirt me-2"></i>Contoh Penerapan Warna dalam Fashion</h5>
+                    <div class="color-application-examples" id="colorApplications"></div>
+                </div>
+
+                <div class="palette-page-controls">
+                    <button class="btn btn-success" onclick="generateNewPalette()">
+                        <i class="fas fa-random me-2"></i>Generate Palette Baru
+                    </button>
+                    <button class="btn btn-primary" onclick="goBackToMain()">
+                        <i class="fas fa-arrow-left me-2"></i>Kembali ke Analisis Utama
+                    </button>
                 </div>
             </div>
         </div>
@@ -809,11 +1375,421 @@
         let currentMeasurements = {};
         let animationId = null;
 
-        // Initialize Three.js
+        // Color Palette variables
+        let currentBaseColor = "#F39EB6";
+        let colorWheelCanvas, colorWheelCtx;
+        let isDragging = false;
+
+        // ==================== COLOR PALETTE FUNCTIONS ====================
+        
+        function initColorWheel() {
+            colorWheelCanvas = document.getElementById('colorWheelCanvas');
+            colorWheelCtx = colorWheelCanvas.getContext('2d');
+            
+            drawColorWheel();
+            
+            // Event listeners for interactive color selection
+            colorWheelCanvas.addEventListener('mousedown', startDrag);
+            colorWheelCanvas.addEventListener('mousemove', drag);
+            colorWheelCanvas.addEventListener('mouseup', endDrag);
+            colorWheelCanvas.addEventListener('mouseleave', endDrag);
+            
+            // Touch events for mobile
+            colorWheelCanvas.addEventListener('touchstart', startDrag);
+            colorWheelCanvas.addEventListener('touchmove', drag);
+            colorWheelCanvas.addEventListener('touchend', endDrag);
+            
+            // Color picker event
+            document.getElementById('colorPicker').addEventListener('input', function(e) {
+                currentBaseColor = e.target.value;
+                updateColorPalette();
+                updateColorPointer(currentBaseColor);
+            });
+        }
+
+        function drawColorWheel() {
+            const width = colorWheelCanvas.width;
+            const height = colorWheelCanvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = Math.min(centerX, centerY) - 10;
+            
+            colorWheelCtx.clearRect(0, 0, width, height);
+            
+            for (let angle = 0; angle < 360; angle += 0.5) {
+                const startAngle = (angle - 0.5) * Math.PI / 180;
+                const endAngle = (angle + 0.5) * Math.PI / 180;
+                
+                colorWheelCtx.beginPath();
+                colorWheelCtx.moveTo(centerX, centerY);
+                colorWheelCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+                colorWheelCtx.closePath();
+                
+                const gradient = colorWheelCtx.createRadialGradient(
+                    centerX, centerY, 0,
+                    centerX, centerY, radius
+                );
+                
+                const hue = angle;
+                gradient.addColorStop(0, 'white');
+                gradient.addColorStop(0.7, `hsl(${hue}, 100%, 50%)`);
+                gradient.addColorStop(1, `hsl(${hue}, 100%, 30%)`);
+                
+                colorWheelCtx.fillStyle = gradient;
+                colorWheelCtx.fill();
+            }
+            
+            // Draw center circle
+            colorWheelCtx.beginPath();
+            colorWheelCtx.arc(centerX, centerY, radius * 0.3, 0, 2 * Math.PI);
+            colorWheelCtx.fillStyle = '#FFFFFF';
+            colorWheelCtx.fill();
+            colorWheelCtx.strokeStyle = '#DDDDDD';
+            colorWheelCtx.lineWidth = 2;
+            colorWheelCtx.stroke();
+        }
+
+        function getColorFromWheel(x, y) {
+            const rect = colorWheelCanvas.getBoundingClientRect();
+            const centerX = colorWheelCanvas.width / 2;
+            const centerY = colorWheelCanvas.height / 2;
+            
+            const pixelX = x - rect.left;
+            const pixelY = y - rect.top;
+            
+            const dx = pixelX - centerX;
+            const dy = pixelY - centerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const radius = Math.min(centerX, centerY) - 10;
+            
+            if (distance > radius * 0.3 && distance < radius) {
+                let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                if (angle < 0) angle += 360;
+                
+                const saturation = Math.min(100, (distance / radius) * 100);
+                const lightness = 50;
+                
+                return hslToHex(angle, saturation, lightness);
+            }
+            
+            return null;
+        }
+
+        function startDrag(e) {
+            e.preventDefault();
+            isDragging = true;
+            handleColorSelection(e);
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            handleColorSelection(e);
+        }
+
+        function endDrag(e) {
+            isDragging = false;
+        }
+
+        function handleColorSelection(e) {
+            let clientX, clientY;
+            
+            if (e.type.includes('touch')) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            const color = getColorFromWheel(clientX, clientY);
+            if (color) {
+                currentBaseColor = color;
+                updateColorPalette();
+                updateColorPointer(color);
+                document.getElementById('colorPicker').value = color;
+            }
+        }
+
+        function updateColorPointer(color) {
+            const pointer = document.getElementById('colorPointer');
+            pointer.innerHTML = `<i class="fas fa-circle" style="color: ${color}"></i>`;
+        }
+
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
+
+        function hexToHSL(hex) {
+            hex = hex.replace('#', '');
+            const r = parseInt(hex.substr(0, 2), 16) / 255;
+            const g = parseInt(hex.substr(2, 2), 16) / 255;
+            const b = parseInt(hex.substr(4, 2), 16) / 255;
+            
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            
+            return {
+                h: Math.round(h * 360),
+                s: Math.round(s * 100),
+                l: Math.round(l * 100)
+            };
+        }
+
+        function getRandomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = 60 + Math.floor(Math.random() * 30);
+            const lightness = 40 + Math.floor(Math.random() * 30);
+            
+            return hslToHex(hue, saturation, lightness);
+        }
+
+        function generateExpandedMonochromaticPalette(baseColor) {
+            const hsl = hexToHSL(baseColor);
+            const palette = [];
+            
+            for (let i = 0; i < 9; i++) {
+                const lightness = 10 + (i * 10);
+                const saturation = Math.max(30, hsl.s - (Math.abs(i - 4) * 5));
+                palette.push(hslToHex(hsl.h, saturation, lightness));
+            }
+            
+            return palette;
+        }
+
+        function generateExpandedComplementaryPalette(baseColor) {
+            const hsl = hexToHSL(baseColor);
+            const complementaryHue = (hsl.h + 180) % 360;
+            
+            return [
+                hslToHex(hsl.h, hsl.s, hsl.l),
+                hslToHex(hsl.h, Math.min(hsl.s + 20, 100), Math.max(hsl.l - 10, 10)),
+                hslToHex(hsl.h, Math.max(hsl.s - 20, 30), Math.min(hsl.l + 20, 90)),
+                hslToHex(complementaryHue, hsl.s, hsl.l),
+                hslToHex(complementaryHue, Math.min(hsl.s + 20, 100), Math.max(hsl.l - 10, 10)),
+                hslToHex(complementaryHue, Math.max(hsl.s - 20, 30), Math.min(hsl.l + 20, 90)),
+                hslToHex(hsl.h, hsl.s * 0.3, 60),
+                hslToHex(complementaryHue, hsl.s * 0.3, 60)
+            ];
+        }
+
+        function generateExpandedAnalogousPalette(baseColor) {
+            const hsl = hexToHSL(baseColor);
+            const palette = [];
+            
+            const hues = [
+                (hsl.h - 45 + 360) % 360,
+                (hsl.h - 30 + 360) % 360,
+                (hsl.h - 15 + 360) % 360,
+                hsl.h,
+                (hsl.h + 15) % 360,
+                (hsl.h + 30) % 360,
+                (hsl.h + 45) % 360
+            ];
+            
+            hues.forEach((hue, index) => {
+                const lightness = hsl.l + (index - 3) * 5;
+                palette.push(hslToHex(hue, hsl.s, Math.max(Math.min(lightness, 85), 15)));
+            });
+            
+            return palette;
+        }
+
+        function generateTriadicPalette(baseColor) {
+            const hsl = hexToHSL(baseColor);
+            const palette = [];
+            
+            const hues = [
+                hsl.h,
+                (hsl.h + 120) % 360,
+                (hsl.h + 240) % 360
+            ];
+            
+            hues.forEach(hue => {
+                palette.push(hslToHex(hue, hsl.s, hsl.l));
+                palette.push(hslToHex(hue, Math.min(hsl.s + 20, 100), Math.max(hsl.l - 15, 20)));
+                palette.push(hslToHex(hue, Math.max(hsl.s - 20, 40), Math.min(hsl.l + 15, 80)));
+            });
+            
+            return palette;
+        }
+
+        function createColorBox(color, index = 0) {
+            const hsl = hexToHSL(color);
+            const textColor = hsl.l > 50 ? '#000' : '#fff';
+            
+            return `
+                <div class="large-color-box" style="background-color: ${color}; color: ${textColor};" 
+                     onclick="copyToClipboard('${color}')" title="Klik untuk menyalin">
+                    ${index > 0 ? index : ''}
+                    <div class="color-hex">${color}</div>
+                </div>
+            `;
+        }
+
+        function generateExpandedColorApplications(monoPalette, compPalette) {
+            const applications = [
+                {
+                    title: "Office Look",
+                    description: "Monochromatic dengan aksen complementary",
+                    colors: [monoPalette[4], monoPalette[6], compPalette[3], "#FFFFFF"],
+                    style: "background: linear-gradient(135deg, " + monoPalette[4] + " 0%, " + monoPalette[6] + " 50%, " + compPalette[3] + " 100%);"
+                },
+                {
+                    title: "Casual Day",
+                    description: "Analogous palette yang harmonis",
+                    colors: [monoPalette[3], monoPalette[5], monoPalette[7], "#F5F5F5"],
+                    style: "background: linear-gradient(135deg, " + monoPalette[3] + " 0%, " + monoPalette[5] + " 50%, " + monoPalette[7] + " 100%);"
+                },
+                {
+                    title: "Evening Outfit",
+                    description: "Triadic dengan warna berani",
+                    colors: [monoPalette[2], compPalette[0], compPalette[4], "#000000"],
+                    style: "background: linear-gradient(135deg, " + monoPalette[2] + " 0%, " + compPalette[0] + " 50%, " + compPalette[4] + " 100%);"
+                },
+                {
+                    title: "Weekend Style",
+                    description: "Monochromatic dengan gradasi lembut",
+                    colors: [monoPalette[1], monoPalette[3], monoPalette[5], monoPalette[7]],
+                    style: "background: linear-gradient(135deg, " + monoPalette[1] + " 0%, " + monoPalette[3] + " 33%, " + monoPalette[5] + " 66%, " + monoPalette[7] + " 100%);"
+                }
+            ];
+            
+            return applications.map(app => `
+                <div class="application-card">
+                    <h6>${app.title}</h6>
+                    <div class="app-preview" style="${app.style}"></div>
+                    <p style="font-size: 0.9rem; color: #666;">${app.description}</p>
+                    <div style="display: flex; gap: 5px; margin-top: 10px;">
+                        ${app.colors.map(color => `
+                            <div style="width: 20px; height: 20px; border-radius: 4px; background-color: ${color}; border: 1px solid #ddd;"
+                                 title="${color}"></div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateColorPalette() {
+            if (!currentBaseColor) {
+                currentBaseColor = getRandomColor();
+            }
+            
+            const preview = document.getElementById('selectedColorPreview');
+            const hsl = hexToHSL(currentBaseColor);
+            const textColor = hsl.l > 50 ? '#000' : '#fff';
+            
+            preview.innerHTML = `
+                <div class="large-color-box" style="background-color: ${currentBaseColor}; color: ${textColor};">
+                    Warna Pilihan
+                    <div class="color-hex">${currentBaseColor}</div>
+                    <div class="color-hex" style="margin-top: 5px; font-size: 0.7rem;">H: ${hsl.h}° S: ${hsl.s}% L: ${hsl.l}%</div>
+                </div>
+            `;
+            
+            const monoPalette = generateExpandedMonochromaticPalette(currentBaseColor);
+            const compPalette = generateExpandedComplementaryPalette(currentBaseColor);
+            const analogPalette = generateExpandedAnalogousPalette(currentBaseColor);
+            const triadicPalette = generateTriadicPalette(currentBaseColor);
+            
+            document.getElementById('monochromaticColors').innerHTML = 
+                monoPalette.map((color, i) => createColorBox(color, i + 1)).join('');
+            
+            document.getElementById('complementaryColors').innerHTML = 
+                compPalette.map((color, i) => createColorBox(color, i + 1)).join('');
+            
+            document.getElementById('analogousColors').innerHTML = 
+                analogPalette.map((color, i) => createColorBox(color, i + 1)).join('');
+            
+            document.getElementById('triadicColors').innerHTML = 
+                triadicPalette.map((color, i) => createColorBox(color, i + 1)).join('');
+            
+            document.getElementById('colorApplications').innerHTML = 
+                generateExpandedColorApplications(monoPalette, compPalette);
+            
+            updatePageBackground(currentBaseColor);
+        }
+
+        function updatePageBackground(baseColor) {
+            const page = document.getElementById('colorPalettePage');
+            const hsl = hexToHSL(baseColor);
+            
+            const bgColor1 = hslToHex(hsl.h, Math.max(hsl.s - 40, 10), 95);
+            const bgColor2 = hslToHex((hsl.h + 30) % 360, Math.max(hsl.s - 50, 5), 97);
+            
+            page.style.background = `linear-gradient(135deg, ${bgColor1} 0%, ${bgColor2} 100%)`;
+        }
+
+        function generateNewPalette() {
+            currentBaseColor = getRandomColor();
+            document.getElementById('colorPicker').value = currentBaseColor;
+            
+            updateColorPalette();
+            updateColorPointer(currentBaseColor);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Warna ${text} berhasil disalin ke clipboard!`);
+            });
+        }
+
+        function showColorPalettePage() {
+            const session = localStorage.getItem('lookSyncSession') || sessionStorage.getItem('lookSyncSession');
+            const user = JSON.parse(session);
+            
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('colorPalettePage').classList.remove('hidden');
+            
+            document.getElementById('paletteGreeting').textContent = `Halo, ${user.name}!`;
+            
+            const badge = user.isPremium ? 
+                '<span class="premium-badge">👑 Premium</span>' : 
+                '<span class="badge bg-secondary">Free</span>';
+            document.getElementById('paletteMembershipBadge').innerHTML = badge;
+            
+            initColorWheel();
+            
+            if (!currentBaseColor) {
+                currentBaseColor = getRandomColor();
+                document.getElementById('colorPicker').value = currentBaseColor;
+            }
+            updateColorPalette();
+            updateColorPointer(currentBaseColor);
+        }
+
+        function goBackToMain() {
+            document.getElementById('colorPalettePage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+        }
+
+        // ==================== THREE.JS FUNCTIONS ====================
+        
         function init3DViewer(measurements, shapeType) {
             const container = document.getElementById('bodyShape3DViewer');
             
-            // Clear previous renderer
             if (renderer) {
                 container.innerHTML = '';
                 if (animationId) {
@@ -821,21 +1797,17 @@
                 }
             }
             
-            // Create scene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xf8f9fa);
             
-            // Create camera
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
             camera.position.set(0, 0.8, 4);
             
-            // Create renderer
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             container.appendChild(renderer.domElement);
             
-            // Add lights
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
             
@@ -847,10 +1819,8 @@
             backLight.position.set(-5, 5, -5);
             scene.add(backLight);
             
-            // Create body shape based on measurements
             createPersonalizedBodyShape(measurements, shapeType);
             
-            // Add controls
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
@@ -860,7 +1830,6 @@
             controls.minDistance = 2;
             controls.maxDistance = 6;
             
-            // Add floor
             const floorGeometry = new THREE.CircleGeometry(3, 32);
             const floorMaterial = new THREE.MeshPhongMaterial({ 
                 color: 0xe0e0e0, 
@@ -872,29 +1841,22 @@
             floor.position.y = -1.5;
             scene.add(floor);
             
-            // Start animation
             animate();
             
-            // Handle window resize
             window.addEventListener('resize', onWindowResize);
         }
 
         function createPersonalizedBodyShape(measurements, shapeType) {
             currentMeasurements = measurements;
             
-            // Remove existing body mesh
             if (bodyMesh) {
                 scene.remove(bodyMesh);
             }
             
-            // Normalize measurements for 3D visualization
             const normalized = normalizeMeasurements(measurements);
-            
-            // Create geometry based on body type with personalized measurements
             const geometry = createCustomBodyGeometry(normalized, shapeType);
             const color = getShapeColor(shapeType);
             
-            // Create material
             const material = new THREE.MeshPhongMaterial({
                 color: color,
                 shininess: 50,
@@ -904,18 +1866,14 @@
                 flatShading: true
             });
             
-            // Create mesh
             bodyMesh = new THREE.Mesh(geometry, material);
             bodyMesh.rotation.y = Math.PI;
             scene.add(bodyMesh);
             
-            // Display measurements
             displayMeasurementsInfo(measurements);
         }
 
         function normalizeMeasurements(measurements) {
-            // Normalize measurements to fit 3D space
-            // Convert from cm to 3D units (approx 100cm = 1.8 units)
             const scale = 0.018;
             
             return {
@@ -929,43 +1887,39 @@
         }
 
         function createCustomBodyGeometry(normalized, shapeType) {
-            const segments = 24; // Reduced segments for better performance
-            const height = normalized.height * 0.7; // Scale down height
+            const segments = 24;
+            const height = normalized.height * 0.7;
             const points = [];
             
-            // Create points for lathe geometry
-            // From top to bottom
             for (let i = 0; i <= 8; i++) {
                 const t = i / 8;
                 let radius;
                 
-                if (t < 0.25) { // Neck to shoulders
+                if (t < 0.25) {
                     radius = normalized.shoulderWidth * 0.3 + 
                             (normalized.shoulderWidth * 0.7 - normalized.shoulderWidth * 0.3) * (t / 0.25);
-                } else if (t < 0.4) { // Shoulders to bust
+                } else if (t < 0.4) {
                     radius = normalized.bustRadius * 0.9 + 
                             (normalized.bustRadius - normalized.bustRadius * 0.9) * ((t - 0.25) / 0.15);
-                } else if (t < 0.6) { // Bust to waist
+                } else if (t < 0.6) {
                     radius = normalized.bustRadius - 
                             (normalized.bustRadius - normalized.waistRadius) * ((t - 0.4) / 0.2);
-                } else if (t < 0.8) { // Waist to hips
+                } else if (t < 0.8) {
                     radius = normalized.waistRadius + 
                             (normalized.hipRadius - normalized.waistRadius) * ((t - 0.6) / 0.2);
-                } else { // Hips to ankles
+                } else {
                     radius = normalized.hipRadius - 
                             normalized.hipRadius * 0.6 * ((t - 0.8) / 0.2);
                 }
                 
-                // Apply shape-specific adjustments
                 radius = applyShapeAdjustment(radius, t, shapeType);
                 
                 points.push(new THREE.Vector2(
                     radius,
-                    height * (0.5 - t) // Center around 0
+                    height * (0.5 - t)
                 ));
             }
             
-            // Create lathe geometry
             return new THREE.LatheGeometry(points, segments);
         }
 
@@ -973,40 +1927,40 @@
             switch(shapeType) {
                 case 'hourglass':
                     if (t > 0.35 && t < 0.65) {
-                        return radius * 0.7; // Smaller waist
+                        return radius * 0.7;
                     }
                     break;
                 case 'pear':
                     if (t > 0.6) {
-                        return radius * 1.2; // Larger hips
+                        return radius * 1.2;
                     } else {
-                        return radius * 0.9; // Smaller upper body
+                        return radius * 0.9;
                     }
                 case 'apple':
                     if (t < 0.5) {
-                        return radius * 1.1; // Larger upper body
+                        return radius * 1.1;
                     } else {
-                        return radius * 0.9; // Smaller lower body
+                        return radius * 0.9;
                     }
                 case 'inverted-triangle':
                     if (t < 0.4) {
-                        return radius * 1.2; // Larger shoulders
+                        return radius * 1.2;
                     } else {
-                        return radius * 0.8; // Smaller lower body
+                        return radius * 0.8;
                     }
                 case 'rectangle':
-                    return radius * 0.95; // More uniform
+                    return radius * 0.95;
             }
             return radius;
         }
 
         function getShapeColor(shapeType) {
             const colors = {
-                'hourglass': 0xF39EB6, // Pink
-                'pear': 0xB8DB80,      // Green
-                'apple': 0xFFA500,     // Orange
-                'inverted-triangle': 0x6A5ACD, // Purple
-                'rectangle': 0x20B2AA  // Teal
+                'hourglass': 0xF39EB6,
+                'pear': 0xB8DB80,
+                'apple': 0xFFA500,
+                'inverted-triangle': 0x6A5ACD,
+                'rectangle': 0x20B2AA
             };
             return colors[shapeType] || 0x888888;
         }
@@ -1087,49 +2041,40 @@
             const waist = measurements.waist;
             const hip = measurements.hip;
             
-            // 1. Calculate BMI (Body Mass Index)
             const heightInMeters = height / 100;
             const bmi = weight / (heightInMeters * heightInMeters);
             
-            // 2. Calculate Ideal Weight using provided formula
             const baseWeight = height - 100;
             const idealWeight = baseWeight - (0.15 * baseWeight);
             
-            // 3. Calculate Weight Difference
             const weightDifference = weight - idealWeight;
-            
-            // 4. Calculate Waist-to-Hip Ratio (WHR)
             const whr = waist / hip;
             
-            // 5. Determine Health Category based on BMI
             let healthCategory, healthDescription, categoryClass, bmiPosition;
             
             if (bmi < 18.5) {
                 healthCategory = "KURUS (Underweight)";
                 healthDescription = "Berat badan Anda kurang dari ideal. Disarankan untuk meningkatkan asupan nutrisi.";
                 categoryClass = "category-underweight";
-                bmiPosition = (bmi / 18.5) * 25; // 0-25% on meter
+                bmiPosition = (bmi / 18.5) * 25;
             } else if (bmi >= 18.5 && bmi < 23) {
                 healthCategory = "IDEAL (Normal)";
                 healthDescription = "Berat badan Anda dalam kategori ideal. Pertahankan pola hidup sehat!";
                 categoryClass = "category-ideal";
-                bmiPosition = 25 + ((bmi - 18.5) / (23 - 18.5)) * 25; // 25-50% on meter
+                bmiPosition = 25 + ((bmi - 18.5) / (23 - 18.5)) * 25;
             } else if (bmi >= 23 && bmi < 27.5) {
                 healthCategory = "GEMUK (Overweight)";
                 healthDescription = "Berat badan Anda berlebih. Disarankan untuk meningkatkan aktivitas fisik.";
                 categoryClass = "category-overweight";
-                bmiPosition = 50 + ((bmi - 23) / (27.5 - 23)) * 25; // 50-75% on meter
+                bmiPosition = 50 + ((bmi - 23) / (27.5 - 23)) * 25;
             } else {
                 healthCategory = "OBESITAS (Obese)";
                 healthDescription = "Berat badan Anda dalam kategori obesitas. Konsultasikan dengan ahli gizi.";
                 categoryClass = "category-obese";
-                bmiPosition = 75 + ((bmi - 27.5) / 10) * 25; // 75-100% on meter (assuming max BMI ~37.5)
+                bmiPosition = 75 + ((bmi - 27.5) / 10) * 25;
             }
             
-            // Limit bmiPosition to 0-100
             bmiPosition = Math.max(0, Math.min(100, bmiPosition));
-            
-            // 6. Generate Health Tips based on category
             const healthTips = generateHealthTips(healthCategory, weightDifference, whr);
             
             return {
@@ -1177,7 +2122,6 @@
                 tips.push("Cari dukungan dari keluarga atau komunitas untuk motivasi");
             }
             
-            // Additional tips based on weight difference
             const absDiff = Math.abs(weightDifference);
             if (absDiff > 10) {
                 tips.push("Target penurunan/penambahan berat badan yang sehat adalah 0.5-1 kg per minggu");
@@ -1187,22 +2131,17 @@
         }
         
         function displayHealthAnalysis(analysis) {
-            // Display BMI value
             document.getElementById('bmiValue').textContent = `BMI: ${analysis.bmi}`;
             
-            // Display health category
             const categoryElement = document.getElementById('healthCategory');
             categoryElement.textContent = analysis.healthCategory;
             categoryElement.className = `health-category ${analysis.categoryClass}`;
             
-            // Display health description
             document.getElementById('healthDescription').textContent = analysis.healthDescription;
             
-            // Update BMI indicator position
             const indicator = document.getElementById('bmiIndicator');
             indicator.style.left = `${analysis.bmiPosition}%`;
             
-            // Update stats
             document.getElementById('statWeight').textContent = `${currentMeasurements.weight} kg`;
             document.getElementById('statIdealWeight').textContent = `${analysis.idealWeight} kg`;
             
@@ -1213,7 +2152,6 @@
             
             document.getElementById('statWhr').textContent = analysis.whr;
             
-            // Display health tips
             const tipsList = document.getElementById('healthTips');
             tipsList.innerHTML = analysis.healthTips.map(tip => `<li>${tip}</li>`).join('');
         }
@@ -1336,49 +2274,36 @@
         function determineBodyShape(measurements) {
             const { bust, waist, hip, shoulder } = measurements;
             
-            // Validate measurements
             if (shoulder <= 0 || bust <= 0 || waist <= 0 || hip <= 0) {
                 throw new Error('Semua pengukuran harus bernilai positif');
             }
             
-            // Hitung perbedaan
             const shoulderHipDiff = shoulder - hip;
             const bustHipDiff = bust - hip;
             const hipWaistDiff = hip - waist;
             const bustWaistDiff = bust - waist;
             const shoulderWaistDiff = shoulder - waist;
             
-            // Hourglass
             if (Math.abs(shoulder - hip) <= 3 && 
                 Math.abs(bust - hip) <= 3 && 
                 shoulderWaistDiff >= 15 && 
                 hipWaistDiff >= 15) {
                 return 'hourglass';
             }
-            
-            // Pear
             else if (hip > shoulder + 5 && hip > bust + 5) {
                 return 'pear';
             }
-            
-            // Apple
             else if (shoulder > hip + 5 && bust > hip + 5) {
                 return 'apple';
             }
-            
-            // Inverted Triangle
             else if (shoulder > hip + 8 && shoulder > bust) {
                 return 'inverted-triangle';
             }
-            
-            // Rectangle
             else if (Math.abs(shoulder - waist) <= 5 && 
                      Math.abs(hip - waist) <= 5 && 
                      Math.abs(shoulder - hip) <= 5) {
                 return 'rectangle';
             }
-            
-            // Default
             else {
                 const ratios = {
                     'shoulderToHip': shoulder / hip,
@@ -1424,8 +2349,6 @@
             return info[shape] || info['rectangle'];
         }
 
-        // ==================== REKOMENDASI OUTFIT ASLI ====================
-        
         function getRecommendations(shape, isPremium) {
             const recommendations = {
                 'hourglass': [
@@ -1621,7 +2544,6 @@
                 errors.push('Lebar bahu harus antara 30-70 cm');
             }
             
-            // Consistency checks
             if (measurements.waist > measurements.bust) {
                 errors.push('Pinggang tidak boleh lebih besar dari dada');
             }
@@ -1636,7 +2558,6 @@
             e.preventDefault();
             
             try {
-                // Get measurements
                 const measurements = {
                     height: parseInt(document.getElementById('height').value),
                     weight: parseInt(document.getElementById('weight').value),
@@ -1646,7 +2567,6 @@
                     shoulder: parseInt(document.getElementById('shoulder').value)
                 };
                 
-                // Validate measurements
                 const errors = validateMeasurements(measurements);
                 if (errors.length > 0) {
                     const errorDiv = document.getElementById('inputError');
@@ -1655,32 +2575,25 @@
                     return;
                 }
                 
-                // Clear any previous errors
                 document.getElementById('inputError').classList.add('hidden');
                 
                 const session = localStorage.getItem('lookSyncSession') || sessionStorage.getItem('lookSyncSession');
                 const user = JSON.parse(session);
 
-                // 1. Perform Health Analysis
                 const healthAnalysis = calculateHealthAnalysis(measurements);
                 displayHealthAnalysis(healthAnalysis);
                 
-                // 2. Determine Body Shape
                 const bodyShape = determineBodyShape(measurements);
                 const shapeInfo = getBodyShapeInfo(bodyShape);
                 const recommendations = getRecommendations(bodyShape, user.isPremium);
 
-                // Display body shape results
                 document.getElementById('bodyShapeType').textContent = shapeInfo.name;
                 document.getElementById('shape3DLabel').textContent = shapeInfo.name;
                 document.getElementById('bodyShapeDescription').textContent = shapeInfo.description;
 
-                // Initialize personalized 3D viewer
                 init3DViewer(measurements, bodyShape);
 
-                // Display fashion recommendations
                 const recommendationsHTML = recommendations.map((rec, index) => {
-                    // Hilangkan bagian "undefined" dengan mengecek apakah properti ada
                     const topText = rec.top ? `<p><strong>Atasan:</strong> ${rec.top}</p>` : '';
                     const bottomText = rec.bottom ? `<p><strong>Bawahan:</strong> ${rec.bottom}</p>` : '';
                     
@@ -1703,11 +2616,9 @@
 
                 document.getElementById('recommendations').innerHTML = recommendationsHTML;
 
-                // Show results, hide input
                 document.getElementById('inputSection').classList.add('hidden');
                 document.getElementById('resultsSection').classList.remove('hidden');
                 
-                // Scroll to results
                 document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
                 
             } catch (error) {
@@ -1735,10 +2646,8 @@
             const session = localStorage.getItem('lookSyncSession') || sessionStorage.getItem('lookSyncSession');
             const user = JSON.parse(session);
 
-            // Update user status
             user.isPremium = true;
 
-            // Update in users array
             const users = JSON.parse(localStorage.getItem('lookSyncUsers') || '[]');
             const userIndex = users.findIndex(u => u.id === user.id);
             if (userIndex !== -1) {
@@ -1746,14 +2655,11 @@
                 localStorage.setItem('lookSyncUsers', JSON.stringify(users));
             }
 
-            // Update session
             localStorage.setItem('lookSyncSession', JSON.stringify(user));
 
-            // Close modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('upgradeModal'));
             modal.hide();
 
-            // Show success message and reload
             alert('🎉 Selamat! Akun Anda telah di-upgrade ke Premium!');
             location.reload();
         }
@@ -1761,7 +2667,6 @@
         // Initialize app on page load
         window.addEventListener('DOMContentLoaded', initApp);
         
-        // Cleanup on page unload
         window.addEventListener('beforeunload', () => {
             if (animationId) {
                 cancelAnimationFrame(animationId);
